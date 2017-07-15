@@ -1,5 +1,7 @@
 package com.hack17.hybo.repository;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -13,5 +15,9 @@ public class PortfolioRepository {
 	EntityManager entityManager;
 	public Portfolio getPortfolio(long portfolioId){
 		return entityManager.find(Portfolio.class, portfolioId);
+	}
+	
+	public List<Portfolio> getAllPortfolios(){
+		return entityManager.createQuery("from Portfolio", Portfolio.class).getResultList();
 	}
 }
