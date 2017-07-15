@@ -10,3 +10,12 @@ alter table Portfolio_Allocation drop constraint FK34AC147782716DFB [42102-156]
 07-15 23:21:06 jdbc[2]: exception
 org.h2.jdbc.JdbcSQLException: Table "PORTFOLIO_ALLOCATION" not found; SQL statement:
 alter table Portfolio_Allocation drop constraint FK34AC1477B333BE66 [42102-156]
+07-16 00:15:55 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "TLHADVICE" not found; SQL statement:
+alter table TLHAdvice drop constraint FKD2B1D1E8B333BE66 [42102-156]
+07-16 00:15:55 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "TLHADVICE_RECOMMENDATION" not found; SQL statement:
+alter table TLHAdvice_Recommendation drop constraint FKB6E69B103CCDE286 [42102-156]
+07-16 00:15:55 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "TLHADVICE_RECOMMENDATION" not found; SQL statement:
+alter table TLHAdvice_Recommendation drop constraint FKB6E69B105FCA2D2D [42102-156]
