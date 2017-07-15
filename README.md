@@ -16,4 +16,4 @@ In value give path where you have this directory, this directory contains h2 db 
 Goto your maven repo at path .m2\repository\com\h2database\h2\1.3.156
 double click the jar h2-1.3.156.jar
 
-For JDBC URL put your path jdbc:h2:tcp://localhost/<put the same path that you gave above>;AUTO_SERVER=true
+For JDBC URL put your path jdbc:h2:tcp://localhost/\<put the same path that you gave above\>;AUTO_SERVER=true
