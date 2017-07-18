@@ -31,6 +31,13 @@ public class InvestorProfile {
 		this.investmentHorizonInMonths = investmentHorizon;
 		this.horizonAsOfDate = horizonAsOfDate;
 	}
+
+	@Override
+	public String toString() {
+		return "InvestorProfile [id=" + id + ", dateOfBirth=" + dateOfBirth + ", riskTolerance=" + riskTolerance
+				+ ", investmentHorizonInMonths=" + investmentHorizonInMonths + ", horizonAsOfDate=" + horizonAsOfDate
+				+ "]";
+	}
 	
 	
 

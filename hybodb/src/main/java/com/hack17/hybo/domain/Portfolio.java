@@ -46,6 +46,11 @@ public class Portfolio {
 	public void setInvestorProfile(InvestorProfile investorProfile) {
 		this.investorProfile = investorProfile;
 	}
+
+	@Override
+	public String toString() {
+		return "Portfolio [id=" + id + ", allocations=" + allocations + ", investorProfile=" + investorProfile + "]";
+	}
 	
 	
 
