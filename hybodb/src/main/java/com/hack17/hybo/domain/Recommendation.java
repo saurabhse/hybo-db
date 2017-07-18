@@ -8,9 +8,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+
 public class Recommendation {
 	
 	@Id
@@ -20,6 +22,9 @@ public class Recommendation {
 	private String ticker2;
 	@Enumerated(EnumType.STRING)
 	private Action action;
+	public Recommendation(){
+		
+	}
 	public Recommendation(String ticker1, String ticker2, Action action) {
 		super();
 		this.ticker1 = ticker1;

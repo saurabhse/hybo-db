@@ -14,7 +14,7 @@
 	<bean id="dataSource"
       class="org.springframework.jdbc.datasource.DriverManagerDataSource">
     <property name="driverClassName" value="org.h2.Driver" />
-    <property name="url" value="jdbc:h2:D:\CodeConcepts\hackovation2017\code\gitSaurabh\hybo-db\hybodb\db\test/hybo;AUTO_SERVER=true" />    
+    <property name="url" value="jdbc:h2:D:/HyboGit/hybo-db/hybodb/db/test/hybo;AUTO_SERVER=true" />    
     <property name="username" value="sa" />
     <property name="password" value="" />
 	</bean>

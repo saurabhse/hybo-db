@@ -2,6 +2,7 @@ package com.hack17.hybo.domain;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,17 +17,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Allocation {
 	@Id
-	//@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	private Fund fund;
 	private double costPrice;
 	private int quantity;
 	private double percentage;
 	private Date transactionDate;
 	private double expenseRatio;
+	private double investment;
 	public Allocation(Fund fund, double costPrice, int quantity,
-			double percentage, Date transactionDate, double expenseRatio) {
+			double percentage, Date transactionDate, double expenseRatio,double investment) {
 		super();
 		this.fund = fund;
 		this.costPrice = costPrice;
@@ -34,6 +36,7 @@ public class Allocation {
 		this.percentage = percentage;
 		this.transactionDate = transactionDate;
 		this.expenseRatio = expenseRatio;
+		this.investment = investment;
 	}
 	
 	

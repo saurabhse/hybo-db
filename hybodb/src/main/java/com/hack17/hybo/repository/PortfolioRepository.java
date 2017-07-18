@@ -20,4 +20,11 @@ public class PortfolioRepository {
 	public List<Portfolio> getAllPortfolios(){
 		return entityManager.createQuery("from Portfolio", Portfolio.class).getResultList();
 	}
+	
+	public void persist(Portfolio portfolio){
+		entityManager.persist(portfolio);
+	}
+	public void merge(Portfolio portfolio){
+		entityManager.merge(portfolio);
+	}
 }

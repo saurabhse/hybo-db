@@ -109,19 +109,19 @@ public class HybodbApplicationTests {
 		portfolio.addAllocation(findAllocation(301l));
 		portfolio.addAllocation(findAllocation(302l));
 		portfolio.setInvestorProfile(investorProfile);
-		portfolio.setId(101l);
+		//portfolio.setId(101l);
 		entityManager.persist(portfolio);
 		portfolio = new Portfolio();
 		portfolio.addAllocation(findAllocation(303l));
 		portfolio.addAllocation(findAllocation(304l));
 		portfolio.setInvestorProfile(investorProfile);
-		portfolio.setId(102l);
+		//portfolio.setId(102l);
 		entityManager.persist(portfolio);
 		portfolio = new Portfolio();
 		portfolio.addAllocation(findAllocation(305l));
 		portfolio.addAllocation(findAllocation(306l));
 		portfolio.setInvestorProfile(investorProfile);
-		portfolio.setId(103l);
+		//portfolio.setId(103l);
 		entityManager.persist(portfolio);
 		entityManager.flush();
 		
@@ -136,28 +136,28 @@ public class HybodbApplicationTests {
 		Fund fundVTV = findFund("VTV");
 		Fund fundVEA = findFund("VEA");
 		
-		Allocation alloc = new Allocation(fundVTI,120.4,1000,50d, getDate("APR 01, 2017"), .04);
-		alloc.setId(301l);
+		Allocation alloc = new Allocation(fundVTI,120.4,1000,50d, getDate("APR 01, 2017"), .04,0);
+		//alloc.setId(301l);
 		entityManager.persist(alloc);
 		
-		alloc = new Allocation(fundVTV,44.01,1200,50d, getDate("APR 01, 2017"), .06);
-		alloc.setId(302l);
+		alloc = new Allocation(fundVTV,44.01,1200,50d, getDate("APR 01, 2017"), .06,0);
+		//alloc.setId(302l);
 		entityManager.persist(alloc);
 		
-		alloc = new Allocation(fundVTI,120.4,1000,50d, getDate("APR 01, 2017"), .04);
-		alloc.setId(303l);
+		alloc = new Allocation(fundVTI,120.4,1000,50d, getDate("APR 01, 2017"), .04,0);
+		//alloc.setId(303l);
 		entityManager.persist(alloc);
 		
-		alloc = new Allocation(fundVEA,105.01,1200,50d, getDate("APR 01, 2017"), .06);
-		alloc.setId(304l);
+		alloc = new Allocation(fundVEA,105.01,1200,50d, getDate("APR 01, 2017"), .06,0);
+		//alloc.setId(304l);
 		entityManager.persist(alloc);
 		
-		alloc = new Allocation(fundVTI,120.4,1000,50d, getDate("APR 01, 2017"), .04);
-		alloc.setId(305l);
+		alloc = new Allocation(fundVTI,120.4,1000,50d, getDate("APR 01, 2017"), .04,0);
+		//alloc.setId(305l);
 		entityManager.persist(alloc);
 		
-		alloc = new Allocation(fundVEA,105.01,1200,50d, getDate("JUL 01, 2017"), .06);
-		alloc.setId(306l);
+		alloc = new Allocation(fundVEA,105.01,1200,50d, getDate("JUL 01, 2017"), .06,0);
+		//alloc.setId(306l);
 		entityManager.persist(alloc);
 		
 		entityManager.flush();
