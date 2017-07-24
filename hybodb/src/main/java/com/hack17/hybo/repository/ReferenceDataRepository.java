@@ -1,6 +1,7 @@
 package com.hack17.hybo.repository;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,17 +21,20 @@ public class ReferenceDataRepository {
 		return entityManager
 				.createQuery(
 						"from SecurityPrice sp where sp.ticker=:ticker order by sp.priceDate desc",
-						SecurityPrice.class).setParameter("ticker", ticker).getSingleResult().getPrice();
+						SecurityPrice.class).setParameter("ticker", ticker).getResultList().get(0).getPrice();
 	}
 
 	public double getPriceOnDate(String ticker, Date priceDate) {
-
-		return entityManager
+		List<SecurityPrice> securityPrices = entityManager
 				.createQuery(
-						"from SecurityPrice sp where sp.priceDate = :priceDate",
+						"from SecurityPrice sp where sp.ticker=:ticker and cast(sp.priceDate as date) = :priceDate",
 						SecurityPrice.class)
-				.setParameter("priceDate", priceDate).setFirstResult(1)
-				.getSingleResult().getPrice();
+						.setParameter("ticker", ticker)
+				.setParameter("priceDate", priceDate).getResultList(); 
+		if(securityPrices.size()==0)
+			return 0d;
+		
+		return securityPrices.get(0).getPrice();
 	}
 
 	public String getCorrelatedTicker(String ticker) {

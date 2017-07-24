@@ -1,7 +1,14 @@
 package com.hack17.hybo;
 
 import static com.hack17.hybo.util.DateTimeUtil.getDate;
+import static com.hack17.hybo.util.DateTimeUtil.getDate2;
 import static org.junit.Assert.*;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.stream.Stream;
 
 import javax.persistence.EntityManager;
 
@@ -36,9 +43,9 @@ public class HybodbApplicationTests {
 	@Before
 	public void setUp() throws Exception {
 		createFunds();
-		createAllocations();
 		createInvestorProfile();
 		createPortfolios();
+		//createAllocations();
 		createPrice();
 		createCorrelatedFund();
 	}
@@ -76,53 +83,96 @@ public class HybodbApplicationTests {
 	}
 
 	private void createPrice() {
-		SecurityPrice price = new SecurityPrice();
-		price.setTicker("VTI");
-		price.setPrice(124d);
-		price.setPriceDate(getDate("JUL 01, 2017"));
-		entityManager.persist(price);
-		price = new SecurityPrice();
-		price.setTicker("VTV");
-		price.setPrice(96d);
-		price.setPriceDate(getDate("JUL 01, 2017"));
-		entityManager.persist(price);
-		price = new SecurityPrice();
-		price.setTicker("VEA");
-		price.setPrice(41d);
-		price.setPriceDate(getDate("JUL 01, 2017"));
-		entityManager.persist(price);
+//		SecurityPrice price = new SecurityPrice();
+//		price.setTicker("VTI");
+//		price.setPrice(124d);
+//		price.setPriceDate(getDate("JUL 01, 2017"));
+//		entityManager.persist(price);
+//		price = new SecurityPrice();
+//		price.setTicker("VTV");
+//		price.setPrice(96d);
+//		price.setPriceDate(getDate("JUL 01, 2017"));
+//		entityManager.persist(price);
+//		price = new SecurityPrice();
+//		price.setTicker("VEA");
+//		price.setPrice(41d);
+//		price.setPriceDate(getDate("JUL 01, 2017"));
+//		entityManager.persist(price);
+		File priceDir = new File("./data/prices");
+		for(File priceFile : priceDir.listFiles()){
+			String fileName = priceFile.getName();
+			String etf = fileName.substring(0, fileName.indexOf("."));
+			System.out.println(etf);
+			try(Stream<String> fileLines = Files.lines(Paths.get(priceFile.toURI()))){
+				fileLines.forEach(line->{
+					String[] lineData = line.split(",");
+					if(lineData.length !=6)
+						return;
+					if(lineData[0].contains("Date"))
+						return;
+					SecurityPrice price = new SecurityPrice();
+					price.setTicker(etf.toUpperCase());
+					price.setPrice(Double.parseDouble(lineData[4]));
+					price.setPriceDate(getDate2(lineData[0]));
+					entityManager.persist(price);
+				});
+			} catch (IOException e) {
+				System.out.println(e.getMessage());// TODO Auto-generated catch block
+			}
+		}
+		
 		entityManager.flush();
 		
 	}
 
 	private void createInvestorProfile() {
 		InvestorProfile investorProfile = new InvestorProfile(getDate("Apr 7, 1972"), RiskTolerance.MEDIUM, 26, getDate("Jan 1, 2017"));
-		investorProfile.setId(501);
+		//investorProfile.setId(501);
 		entityManager.persist(investorProfile);
 		entityManager.flush();
 		
 	}
 
 	private void createPortfolios() {
-		InvestorProfile investorProfile = entityManager.find(InvestorProfile.class, 501l);
+		InvestorProfile investorProfile = entityManager.createQuery("from InvestorProfile", InvestorProfile.class).getSingleResult();
 		Portfolio portfolio = new Portfolio();
-		portfolio.addAllocation(findAllocation(301l));
-		portfolio.addAllocation(findAllocation(302l));
 		portfolio.setInvestorProfile(investorProfile);
+		Fund fundVTI = findFund("VTI");
+		Allocation alloc = new Allocation(fundVTI,76.58,1000,50d, getDate("OCT 01, 2007"), .04,0);
+		portfolio.addAllocation(alloc);
+		Fund fundVEA = findFund("VEA");
+		alloc = new Allocation(fundVEA,72.51,1000,50d, getDate("OCT 01, 2007"), .06,0);
+		portfolio.addAllocation(alloc);
+		Fund fundVWO = findFund("VWO");
+		alloc = new Allocation(fundVWO,53.88,1000,50d, getDate("OCT 01, 2007"), .04,0);
+		portfolio.addAllocation(alloc);
+		Fund fundVIG = findFund("VIG");
+		alloc = new Allocation(fundVIG,58.53,1000,50d, getDate("OCT 01, 2007"), .06,0);
+		portfolio.addAllocation(alloc);
+		Fund fundXLE = findFund("XLE");
+		alloc = new Allocation(fundXLE,76.0,1000,50d, getDate("OCT 01, 2007"), .04,0);
+		portfolio.addAllocation(alloc);
+		Fund fundMUB = findFund("MUB");
+		alloc = new Allocation(fundMUB,100.6,1200,50d, getDate("OCT 01, 2007"), .06,0);
+		portfolio.addAllocation(alloc);
 		//portfolio.setId(101l);
 		entityManager.persist(portfolio);
-		portfolio = new Portfolio();
-		portfolio.addAllocation(findAllocation(303l));
-		portfolio.addAllocation(findAllocation(304l));
-		portfolio.setInvestorProfile(investorProfile);
-		//portfolio.setId(102l);
-		entityManager.persist(portfolio);
-		portfolio = new Portfolio();
-		portfolio.addAllocation(findAllocation(305l));
-		portfolio.addAllocation(findAllocation(306l));
-		portfolio.setInvestorProfile(investorProfile);
-		//portfolio.setId(103l);
-		entityManager.persist(portfolio);
+//		portfolio = new Portfolio();
+//		alloc = new Allocation(fundVTI,120.4,1000,50d, getDate("APR 01, 2017"), .04,0);
+//		portfolio.addAllocation(alloc);
+//		alloc = new Allocation(fundVEA,105.01,1200,50d, getDate("APR 01, 2017"), .06,0);
+//		portfolio.addAllocation(alloc);
+//		portfolio.setInvestorProfile(investorProfile);
+//		//portfolio.setId(102l);
+//		entityManager.persist(portfolio);
+//		portfolio = new Portfolio();
+//		alloc = new Allocation(fundVTI,120.4,1000,50d, getDate("APR 01, 2017"), .04,0);
+//		portfolio.addAllocation(alloc);
+//		alloc = new Allocation(fundVEA,105.01,1200,50d, getDate("JUL 01, 2017"), .06,0);
+//		portfolio.addAllocation(alloc);
+//		portfolio.setInvestorProfile(investorProfile);
+//		//portfolio.setId(103l);
+//		entityManager.persist(portfolio);
 		entityManager.flush();
 		
 	}
@@ -133,30 +183,31 @@ public class HybodbApplicationTests {
 
 	private void createAllocations() {
 		Fund fundVTI = findFund("VTI");
-		Fund fundVTV = findFund("VTV");
-		Fund fundVEA = findFund("VEA");
-		
-		Allocation alloc = new Allocation(fundVTI,120.4,1000,50d, getDate("APR 01, 2017"), .04,0);
+		Allocation alloc = new Allocation(fundVTI,76.58,1000,50d, getDate("OCT 01, 2007"), .04,0);
 		//alloc.setId(301l);
 		entityManager.persist(alloc);
-		
-		alloc = new Allocation(fundVTV,44.01,1200,50d, getDate("APR 01, 2017"), .06,0);
+		Fund fundVEA = findFund("VEA");
+		alloc = new Allocation(fundVEA,72.51,1000,50d, getDate("OCT 01, 2007"), .06,0);
 		//alloc.setId(302l);
 		entityManager.persist(alloc);
 		
-		alloc = new Allocation(fundVTI,120.4,1000,50d, getDate("APR 01, 2017"), .04,0);
+		Fund fundVWO = findFund("VWO");
+		alloc = new Allocation(fundVWO,53.88,1000,50d, getDate("OCT 01, 2007"), .04,0);
 		//alloc.setId(303l);
 		entityManager.persist(alloc);
 		
-		alloc = new Allocation(fundVEA,105.01,1200,50d, getDate("APR 01, 2017"), .06,0);
+		Fund fundVIG = findFund("VIG");
+		alloc = new Allocation(fundVIG,58.53,1000,50d, getDate("OCT 01, 2007"), .06,0);
 		//alloc.setId(304l);
 		entityManager.persist(alloc);
 		
-		alloc = new Allocation(fundVTI,120.4,1000,50d, getDate("APR 01, 2017"), .04,0);
+		Fund fundXLE = findFund("XLE");
+		alloc = new Allocation(fundXLE,76.0,1000,50d, getDate("OCT 01, 2007"), .04,0);
 		//alloc.setId(305l);
 		entityManager.persist(alloc);
 		
-		alloc = new Allocation(fundVEA,105.01,1200,50d, getDate("JUL 01, 2017"), .06,0);
+		Fund fundMUB = findFund("MUB");
+		alloc = new Allocation(fundMUB,100.6,1200,50d, getDate("OCT 01, 2007"), .06,0);
 		//alloc.setId(306l);
 		entityManager.persist(alloc);
 		
@@ -174,10 +225,43 @@ public class HybodbApplicationTests {
 		fund.setTicker("VTI");
 		entityManager.persist(fund);
 		fund = new Fund();
-		fund.setTicker("VTV");
+		fund.setTicker("VEA");
 		entityManager.persist(fund);
 		fund = new Fund();
-		fund.setTicker("VEA");
+		fund.setTicker("VWO");
+		entityManager.persist(fund);
+		fund = new Fund();
+		fund.setTicker("VIG");
+		entityManager.persist(fund);
+		fund = new Fund();
+		fund.setTicker("XLE");
+		entityManager.persist(fund);
+		fund = new Fund();
+		fund.setTicker("SCHP");
+		entityManager.persist(fund);
+		fund = new Fund();
+		fund.setTicker("MUB");
+		entityManager.persist(fund);
+		fund = new Fund();
+		fund.setTicker("SCHB");
+		entityManager.persist(fund);
+		fund = new Fund();
+		fund.setTicker("SCHF");
+		entityManager.persist(fund);
+		fund = new Fund();
+		fund.setTicker("IEMG");
+		entityManager.persist(fund);
+		fund = new Fund();
+		fund.setTicker("SCHD");
+		entityManager.persist(fund);
+		fund = new Fund();
+		fund.setTicker("VDE");
+		entityManager.persist(fund);
+		fund = new Fund();
+		fund.setTicker("VTIP");
+		entityManager.persist(fund);
+		fund = new Fund();
+		fund.setTicker("TFI");
 		entityManager.persist(fund);
 		entityManager.flush();
 	}
@@ -186,7 +270,7 @@ public class HybodbApplicationTests {
 	@Transactional
 	@Rollback(false)
 	public void portfolioLoads() {
-		Portfolio portfolio = entityManager.find(Portfolio.class, 101l);
+		Portfolio portfolio = entityManager.createQuery("from Portfolio", Portfolio.class).getResultList().get(0);
 		System.out.println(portfolio);
 		assertNotNull(portfolio);
 	}

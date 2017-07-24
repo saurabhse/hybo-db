@@ -26,7 +26,7 @@ public class JpaConfiguration {
 		Map<String, Object> props = new HashMap<String, Object>();
 		props.put("hibernate.dialect", H2Dialect.class.getName());
 //		props.put("hibernate.cache.provider_class", HashtableCacheProvider.class.getName());		
-		props.put("hibernate.hbm2ddl.auto", "none");		
+		props.put("hibernate.hbm2ddl.auto", "validate");		
 		return props;
 	}
 
