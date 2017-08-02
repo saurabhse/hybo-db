@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,8 +28,13 @@ public class Allocation {
 	private Date transactionDate;
 	private double expenseRatio;
 	private double investment;
+<<<<<<< HEAD
 	private String type;
 	private String isActive;
+=======
+	@Transient
+	private Date holdTillDate;
+>>>>>>> branch 'master' of https://github.com/saurabhse/hybo-db.git
 	public Allocation(Fund fund, double costPrice, int quantity,
 			double percentage, Date transactionDate, double expenseRatio,double investment) {
 		super();
@@ -42,6 +48,4 @@ public class Allocation {
 	}
 	
 	
-
-
 }

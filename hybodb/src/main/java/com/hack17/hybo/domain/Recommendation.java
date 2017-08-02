@@ -22,6 +22,7 @@ public class Recommendation {
 	private String ticker2;
 	@Enumerated(EnumType.STRING)
 	private Action action;
+	private int quantity;
 	public Recommendation(){
 		
 	}
@@ -31,6 +32,16 @@ public class Recommendation {
 		this.ticker2 = ticker2;
 		this.action = action;
 	}
+	public Recommendation(String ticker1, String ticker2, Action action,
+			int quantity) {
+		super();
+		this.ticker1 = ticker1;
+		this.ticker2 = ticker2;
+		this.action = action;
+		this.quantity = quantity;
+	}
+	
+	
 	
 	
 }

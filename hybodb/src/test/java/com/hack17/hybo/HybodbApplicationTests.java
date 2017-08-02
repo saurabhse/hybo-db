@@ -15,6 +15,7 @@ import javax.persistence.EntityManager;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -26,6 +27,7 @@ import com.hack17.hybo.domain.InvestorProfile;
 import com.hack17.hybo.domain.Portfolio;
 import com.hack17.hybo.domain.RiskTolerance;
 import com.hack17.hybo.domain.SecurityPrice;
+import com.hack17.hybo.repository.FundRepository;
 
 import javax.persistence.PersistenceContext;
 
@@ -38,7 +40,8 @@ public class HybodbApplicationTests {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	
+	@Autowired
+	private FundRepository fundRepo;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -46,7 +49,7 @@ public class HybodbApplicationTests {
 		createInvestorProfile();
 		createPortfolios();
 		//createAllocations();
-		createPrice();
+		//createPrice();
 		createCorrelatedFund();
 	}
 
@@ -137,23 +140,29 @@ public class HybodbApplicationTests {
 		InvestorProfile investorProfile = entityManager.createQuery("from InvestorProfile", InvestorProfile.class).getSingleResult();
 		Portfolio portfolio = new Portfolio();
 		portfolio.setInvestorProfile(investorProfile);
-		Fund fundVTI = findFund("VTI");
-		Allocation alloc = new Allocation(fundVTI,76.58,1000,50d, getDate("OCT 01, 2007"), .04,0);
+		Fund fundVTI = fundRepo.findFund("VTI");
+		//Allocation alloc = new Allocation(fundVTI,76.58,1000,50d, getDate("OCT 01, 2007"), .04,0);
+		Allocation alloc = new Allocation(fundVTI,73.23,1000,50d, getDate("Nov 01, 2012"), .04,0);
 		portfolio.addAllocation(alloc);
-		Fund fundVEA = findFund("VEA");
-		alloc = new Allocation(fundVEA,72.51,1000,50d, getDate("OCT 01, 2007"), .06,0);
+		Fund fundVEA = fundRepo.findFund("VEA");
+//		alloc = new Allocation(fundVEA,50.86,1000,50d, getDate("OCT 01, 2007"), .06,0);
+		alloc = new Allocation(fundVEA,33.62,1000,50d, getDate("Nov 01, 2012"), .06,0);
 		portfolio.addAllocation(alloc);
-		Fund fundVWO = findFund("VWO");
-		alloc = new Allocation(fundVWO,53.88,1000,50d, getDate("OCT 01, 2007"), .04,0);
+		Fund fundVWO = fundRepo.findFund("VWO");
+//		alloc = new Allocation(fundVWO,53.88,1000,50d, getDate("OCT 01, 2007"), .04,0);
+		alloc = new Allocation(fundVWO,42.09,1000,50d, getDate("Nov 01, 2012"), .04,0);
 		portfolio.addAllocation(alloc);
-		Fund fundVIG = findFund("VIG");
-		alloc = new Allocation(fundVIG,58.53,1000,50d, getDate("OCT 01, 2007"), .06,0);
+		Fund fundVIG = fundRepo.findFund("VIG");
+//		alloc = new Allocation(fundVIG,58.53,1000,50d, getDate("OCT 01, 2007"), .06,0);
+		alloc = new Allocation(fundVIG,59.52,1000,50d, getDate("Nov 01, 2012"), .06,0);
 		portfolio.addAllocation(alloc);
-		Fund fundXLE = findFund("XLE");
-		alloc = new Allocation(fundXLE,76.0,1000,50d, getDate("OCT 01, 2007"), .04,0);
+		Fund fundXLE = fundRepo.findFund("XLE");
+//		alloc = new Allocation(fundXLE,76.0,1000,50d, getDate("OCT 01, 2007"), .04,0);
+		alloc = new Allocation(fundXLE,72.25,1000,50d, getDate("Nov 01, 2012"), .04,0);
 		portfolio.addAllocation(alloc);
-		Fund fundMUB = findFund("MUB");
-		alloc = new Allocation(fundMUB,100.6,1200,50d, getDate("OCT 01, 2007"), .06,0);
+		Fund fundMUB = fundRepo.findFund("MUB");
+//		alloc = new Allocation(fundMUB,100.6,1200,50d, getDate("OCT 01, 2007"), .06,0);
+		alloc = new Allocation(fundMUB,111.97,1200,50d, getDate("Nov 01, 2012"), .06,0);
 		portfolio.addAllocation(alloc);
 		//portfolio.setId(101l);
 		entityManager.persist(portfolio);
@@ -182,31 +191,31 @@ public class HybodbApplicationTests {
 	}
 
 	private void createAllocations() {
-		Fund fundVTI = findFund("VTI");
+		Fund fundVTI = fundRepo.findFund("VTI");
 		Allocation alloc = new Allocation(fundVTI,76.58,1000,50d, getDate("OCT 01, 2007"), .04,0);
 		//alloc.setId(301l);
 		entityManager.persist(alloc);
-		Fund fundVEA = findFund("VEA");
+		Fund fundVEA = fundRepo.findFund("VEA");
 		alloc = new Allocation(fundVEA,72.51,1000,50d, getDate("OCT 01, 2007"), .06,0);
 		//alloc.setId(302l);
 		entityManager.persist(alloc);
 		
-		Fund fundVWO = findFund("VWO");
+		Fund fundVWO = fundRepo.findFund("VWO");
 		alloc = new Allocation(fundVWO,53.88,1000,50d, getDate("OCT 01, 2007"), .04,0);
 		//alloc.setId(303l);
 		entityManager.persist(alloc);
 		
-		Fund fundVIG = findFund("VIG");
+		Fund fundVIG = fundRepo.findFund("VIG");
 		alloc = new Allocation(fundVIG,58.53,1000,50d, getDate("OCT 01, 2007"), .06,0);
 		//alloc.setId(304l);
 		entityManager.persist(alloc);
 		
-		Fund fundXLE = findFund("XLE");
+		Fund fundXLE = fundRepo.findFund("XLE");
 		alloc = new Allocation(fundXLE,76.0,1000,50d, getDate("OCT 01, 2007"), .04,0);
 		//alloc.setId(305l);
 		entityManager.persist(alloc);
 		
-		Fund fundMUB = findFund("MUB");
+		Fund fundMUB = fundRepo.findFund("MUB");
 		alloc = new Allocation(fundMUB,100.6,1200,50d, getDate("OCT 01, 2007"), .06,0);
 		//alloc.setId(306l);
 		entityManager.persist(alloc);
@@ -216,9 +225,7 @@ public class HybodbApplicationTests {
 		
 	}
 
-	private Fund findFund(String fundTicker) {		
-		return entityManager.createQuery(String.format("from Fund f where f.ticker='%s'",fundTicker),  Fund.class).getSingleResult();
-	}
+	
 
 	private void createFunds() {
 		Fund fund = new Fund();

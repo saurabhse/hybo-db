@@ -8,6 +8,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,8 @@ public class InvestorProfile {
 	private RiskTolerance riskTolerance;
 	private int investmentHorizonInMonths;
 	private Date horizonAsOfDate;
+	@Transient
+	private int annualIncome=200000;
 
 	public InvestorProfile(Date dateOfBirth, RiskTolerance riskTolerance,
 			int investmentHorizon, Date horizonAsOfDate) {

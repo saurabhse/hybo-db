@@ -1,6 +1,7 @@
 package com.hack17.hybo.domain;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -47,10 +48,7 @@ public class Portfolio {
 		this.investorProfile = investorProfile;
 	}
 
-	@Override
-	public String toString() {
-		return "Portfolio [id=" + id + ", allocations=" + allocations + ", investorProfile=" + investorProfile + "]";
-	}
+	
 	
 	
 
