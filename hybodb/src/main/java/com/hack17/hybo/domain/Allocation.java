@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,8 @@ public class Allocation {
 	private Date transactionDate;
 	private double expenseRatio;
 	private double investment;
+	@Transient
+	private Date holdTillDate;
 	public Allocation(Fund fund, double costPrice, int quantity,
 			double percentage, Date transactionDate, double expenseRatio,double investment) {
 		super();
@@ -40,6 +43,4 @@ public class Allocation {
 	}
 	
 	
-
-
 }
