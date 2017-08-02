@@ -1,21 +1,3 @@
-07-15 23:21:06 jdbc[2]: exception
-org.h2.jdbc.JdbcSQLException: Table "ALLOCATION" not found; SQL statement:
-alter table Allocation drop constraint FK4D42D00B12EB26E [42102-156]
-07-15 23:21:06 jdbc[2]: exception
-org.h2.jdbc.JdbcSQLException: Table "PORTFOLIO" not found; SQL statement:
-alter table Portfolio drop constraint FKBA4F2528CB9C44A6 [42102-156]
-07-15 23:21:06 jdbc[2]: exception
-org.h2.jdbc.JdbcSQLException: Table "PORTFOLIO_ALLOCATION" not found; SQL statement:
-alter table Portfolio_Allocation drop constraint FK34AC147782716DFB [42102-156]
-07-15 23:21:06 jdbc[2]: exception
-org.h2.jdbc.JdbcSQLException: Table "PORTFOLIO_ALLOCATION" not found; SQL statement:
-alter table Portfolio_Allocation drop constraint FK34AC1477B333BE66 [42102-156]
-07-16 00:15:55 jdbc[2]: exception
-org.h2.jdbc.JdbcSQLException: Table "TLHADVICE" not found; SQL statement:
-alter table TLHAdvice drop constraint FKD2B1D1E8B333BE66 [42102-156]
-07-16 00:15:55 jdbc[2]: exception
-org.h2.jdbc.JdbcSQLException: Table "TLHADVICE_RECOMMENDATION" not found; SQL statement:
-alter table TLHAdvice_Recommendation drop constraint FKB6E69B103CCDE286 [42102-156]
-07-16 00:15:55 jdbc[2]: exception
-org.h2.jdbc.JdbcSQLException: Table "TLHADVICE_RECOMMENDATION" not found; SQL statement:
-alter table TLHAdvice_Recommendation drop constraint FKB6E69B105FCA2D2D [42102-156]
+07-27 12:31:33 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "ALLOCATION" already exists; SQL statement:
+create table Allocation (id bigint not null, costPrice double not null, expenseRatio double not null, investment double not null, isActive varchar(255), percentage double not null, quantity integer not null, transactionDate timestamp, type varchar(255), fund_id bigint, primary key (id)) [42101-156]

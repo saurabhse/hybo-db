@@ -19,7 +19,7 @@ public class Allocation {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
-	@ManyToOne//(cascade=CascadeType.ALL)
+	@ManyToOne(cascade=CascadeType.ALL)
 	private Fund fund;
 	private double costPrice;
 	private int quantity;
@@ -27,6 +27,8 @@ public class Allocation {
 	private Date transactionDate;
 	private double expenseRatio;
 	private double investment;
+	private String type;
+	private String isActive;
 	public Allocation(Fund fund, double costPrice, int quantity,
 			double percentage, Date transactionDate, double expenseRatio,double investment) {
 		super();

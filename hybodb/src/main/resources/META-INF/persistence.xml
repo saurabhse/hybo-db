@@ -14,6 +14,7 @@
         <class>com.hack17.hybo.domain.CorrelatedFund</class>
         <class>com.hack17.hybo.domain.Recommendation</class>
         <class>com.hack17.hybo.domain.TLHAdvice</class>
+        <class>com.hack17.hybo.domain.IndexPrice</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 
 	</persistence-unit>
