@@ -1,3 +1,0 @@
-07-27 12:31:33 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLException: Table "ALLOCATION" already exists; SQL statement:
-create table Allocation (id bigint not null, costPrice double not null, expenseRatio double not null, investment double not null, isActive varchar(255), percentage double not null, quantity integer not null, transactionDate timestamp, type varchar(255), fund_id bigint, primary key (id)) [42101-156]
