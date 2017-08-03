@@ -27,7 +27,7 @@ public class Portfolio {
 	@OneToMany(cascade=CascadeType.ALL)
 	@Fetch(FetchMode.JOIN)
 	private List<Allocation> allocations = new ArrayList<>();
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne//(cascade=CascadeType.ALL)
 	private InvestorProfile investorProfile;
 
 	public List<Allocation> getAllocations() {
