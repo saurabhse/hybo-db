@@ -15,6 +15,7 @@
         <class>com.hack17.hybo.domain.Recommendation</class>
         <class>com.hack17.hybo.domain.TLHAdvice</class>
         <class>com.hack17.hybo.domain.IndexPrice</class>
+        <class>com.hack17.hybo.domain.Transaction</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 
 	</persistence-unit>

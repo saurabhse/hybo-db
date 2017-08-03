@@ -12,15 +12,17 @@ import javax.persistence.Transient;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Entity
 @NoArgsConstructor
+@ToString(exclude="portfolio")
 public class Allocation {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne//(cascade=CascadeType.ALL)
 	private Fund fund;
 	private double costPrice;
 	private int quantity;
@@ -28,6 +30,8 @@ public class Allocation {
 	private Date transactionDate;
 	private double expenseRatio;
 	private double investment;
+	@ManyToOne
+	private Portfolio portfolio;
 	private String type;
 	private String isActive;
 	@Transient

@@ -36,6 +36,7 @@ public class Portfolio {
 	}
 
 	public void addAllocation(Allocation allocation) {
+		allocation.setPortfolio(this);
 		allocations.add(allocation);
 		
 	}

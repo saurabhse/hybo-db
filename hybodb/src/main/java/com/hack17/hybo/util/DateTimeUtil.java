@@ -52,4 +52,8 @@ public class DateTimeUtil {
 			
 		}
 	}
+	
+	public static String format2(Date date){
+		return sdf2.format(date);
+	}
 }

@@ -1,5 +1,6 @@
 package com.hack17.hybo.util;
 
+import static com.hack17.hybo.util.DateTimeUtil.format2;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -30,27 +31,30 @@ public class ReportUtil implements BeanFactoryAware{
 		ReferenceDataRepository refDataRepo = context.getBean(ReferenceDataRepository.class);
 		StringBuilder strBld = new StringBuilder();
 		strBld.append(String.format("\n\n\nPortfolio id - %d",portfolio.getId()));
-		strBld.append(String.format("\nValue on - %s\n",date));
+		
 		char [] dash = new char[40];
 		Arrays.fill(dash, '-');
-		portfolio.getAllocations().forEach(alloc->{
-			strBld.append(String.format("\n%50s\n", new String(dash)));
-			strBld.append(format(alloc));
-		});
 		List<Double> currValueList = new ArrayList<>();
 		portfolio.getAllocations().forEach(alloc->{
 			double currVal = refDataRepo.getPriceOnDate(alloc.getFund().getTicker(), date);
 			currValueList.add(currVal*alloc.getQuantity());
 		});
+		strBld.append(String.format("\n%-70s\n", new String(dash)));
+		strBld.append(String.format("|%-5s|%10s|%10s|%10s|%20s|", "Ticker", "Cost Price", "Quantity", "Buy Date","Current Price"));
+		for(int index=0; index<portfolio.getAllocations().size();index++){
+			strBld.append(String.format("\n%-70s\n", new String(dash)));
+			strBld.append(format(portfolio.getAllocations().get(index), currValueList.get(index)));
+		}
+		
 		double portfolioValue = currValueList.stream().mapToDouble(d-> d).sum();
-		strBld.append(String.format("\n\nPortfolio Value - %s", portfolioValue));
+		strBld.append(String.format("\n\nValue on %s - %s",format2(date),portfolioValue));
 		strBld.append(String.format("\nTax Alpha - %s", "not available"));
 		return strBld.toString();
 	}
 	
-	public static String format(Allocation allocation){
+	public static String format(Allocation allocation, double currentPrice){
 		StringBuilder strBld = new StringBuilder();
-		strBld.append(String.format("%10s|%10s|%10s|%10s|", allocation.getFund().getTicker(), allocation.getCostPrice(), allocation.getQuantity(), allocation.getTransactionDate()));
+		strBld.append(String.format("|%-5s|%10s|%10s|%10s|%10s|", allocation.getFund().getTicker(), allocation.getCostPrice(), allocation.getQuantity(), format2(allocation.getTransactionDate()),currentPrice));
 		return strBld.toString();
 	}
 	

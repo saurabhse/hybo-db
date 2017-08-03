@@ -8,6 +8,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Date;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import javax.persistence.EntityManager;
@@ -28,6 +30,7 @@ import com.hack17.hybo.domain.Portfolio;
 import com.hack17.hybo.domain.RiskTolerance;
 import com.hack17.hybo.domain.SecurityPrice;
 import com.hack17.hybo.repository.FundRepository;
+import com.hack17.hybo.service.DBLoggerService;
 
 import javax.persistence.PersistenceContext;
 
@@ -43,13 +46,16 @@ public class HybodbApplicationTests {
 	@Autowired
 	private FundRepository fundRepo;
 	
+	@Autowired
+	private DBLoggerService dbLoggerService;
+	
 	@Before
 	public void setUp() throws Exception {
 		createFunds();
 		createInvestorProfile();
 		createPortfolios();
 		//createAllocations();
-		//createPrice();
+		createPrice();
 		createCorrelatedFund();
 	}
 
@@ -216,7 +222,7 @@ public class HybodbApplicationTests {
 		entityManager.persist(alloc);
 		
 		Fund fundMUB = fundRepo.findFund("MUB");
-		alloc = new Allocation(fundMUB,100.6,1200,50d, getDate("OCT 01, 2007"), .06,0);
+		alloc = new Allocation(fundMUB,100.6,1300,50d, getDate("OCT 01, 2007"), .06,0);
 		//alloc.setId(306l);
 		entityManager.persist(alloc);
 		
@@ -280,6 +286,10 @@ public class HybodbApplicationTests {
 		Portfolio portfolio = entityManager.createQuery("from Portfolio", Portfolio.class).getResultList().get(0);
 		System.out.println(portfolio);
 		assertNotNull(portfolio);
+		Optional<Allocation> allocation = portfolio.getAllocations().stream().filter(alloc->alloc.getFund().getTicker().equals("MUB")).findFirst();
+		dbLoggerService.logTransaction(allocation.get(), 65d, new Date(), 100);
+		allocation.get().setQuantity(1200);
+		entityManager.persist(allocation.get());
 	}
 
 }
