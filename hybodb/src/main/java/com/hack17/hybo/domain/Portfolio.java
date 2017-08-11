@@ -24,6 +24,7 @@ public class Portfolio {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
+	private int clientId;
 	@OneToMany(cascade=CascadeType.ALL)
 	@Fetch(FetchMode.JOIN)
 	private List<Allocation> allocations = new ArrayList<>();
