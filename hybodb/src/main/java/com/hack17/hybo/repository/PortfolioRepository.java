@@ -50,7 +50,10 @@ public class PortfolioRepository {
 		query.setParameter("index", index);
 		query.setParameter("date", date);
 		return query.getResultList();
-		
-		
+	}
+	public List<Portfolio> getPortfolio(int clientId){
+		TypedQuery<Portfolio> query = entityManager.createQuery("from Portfolio where clientId=:clientId",Portfolio.class);
+		query.setParameter("clientId", clientId);
+		return query.getResultList();
 	}
 }
