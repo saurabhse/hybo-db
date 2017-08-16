@@ -22,8 +22,8 @@ public class PortfolioRepository {
 	@PersistenceContext
 	EntityManager entityManager;
 	
-	public Object getEntity(long id,Class oject){
-		return entityManager.find(Object.class, id);
+	public Object getEntity(int id,Class object){
+		return entityManager.find(object, id);
 	}
 	public Portfolio getPortfolio(long portfolioId){
 		return entityManager.find(Portfolio.class, portfolioId);

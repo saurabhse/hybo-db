@@ -27,6 +27,7 @@ public class JpaConfiguration {
 		props.put("hibernate.dialect", H2Dialect.class.getName());
 //		props.put("hibernate.cache.provider_class", HashtableCacheProvider.class.getName());		
 		props.put("hibernate.hbm2ddl.auto", "validate");		
+		props.put("hibernate.show_sql", "false");		
 		return props;
 	}
 

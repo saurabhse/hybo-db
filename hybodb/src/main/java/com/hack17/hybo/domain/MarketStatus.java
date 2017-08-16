@@ -2,6 +2,8 @@ package com.hack17.hybo.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.hibernate.annotations.Type;
@@ -15,14 +17,13 @@ import lombok.NoArgsConstructor;
 public class MarketStatus {
 
 	@Id
-	@Column(name="ID")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int id;
-	@Column(name="IS_GOING_UP")
-	@Type(type="yes/no")
+	@Type(type="yes_no")
 	public boolean isGoingUp;
-	@Column(name="IS_GOING_DOWN")
+	@Type(type="yes_no")
 	public boolean isGoingDown;
-	@Column(name="IS_FLUCTUATING")
+	@Type(type="yes_no")
 	public boolean isFluctuating;
 	
 	
