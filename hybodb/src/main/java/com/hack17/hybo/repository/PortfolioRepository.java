@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import com.hack17.hybo.domain.IndexPrice;
 import com.hack17.hybo.domain.MarketStatus;
+import com.hack17.hybo.domain.MarketWeight;
 import com.hack17.hybo.domain.Portfolio;
 
 @Repository
@@ -32,6 +33,11 @@ public class PortfolioRepository {
 		return entityManager.createQuery("from Portfolio", Portfolio.class).getResultList();
 	}
 	
+	public List<MarketWeight> getMarketWeight(int year){
+		TypedQuery<MarketWeight> query = entityManager.createQuery("from MarketWeight where year=:year",MarketWeight.class);
+		query.setParameter("year", year);
+		return query.getResultList();
+	}
 	public void persist(Object portfolio){
 		entityManager.persist(portfolio);
 	}
