@@ -1,11 +1,13 @@
 package com.hack17.hybo.repository;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 
 import org.hibernate.Criteria;
@@ -61,5 +63,22 @@ public class PortfolioRepository {
 		TypedQuery<Portfolio> query = entityManager.createQuery("from Portfolio where clientId=:clientId",Portfolio.class);
 		query.setParameter("clientId", clientId);
 		return query.getResultList();
+	}
+	public double getIndexPriceForGivenDate(String ticker,Date date){
+		double price = 0d;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String formatedDate = sdf.format(date);
+		TypedQuery<IndexPrice> query = entityManager.createQuery("from IndexPrice where index=:ticker and date='"+formatedDate+"'",IndexPrice.class);
+		query.setParameter("ticker", ticker);
+		List<IndexPrice> list = query.getResultList();
+		if(list == null || list.size()==0){
+			 query = entityManager.createQuery("from IndexPrice where index=:ticker order by date desc",IndexPrice.class);
+			 query.setParameter("ticker", ticker);
+			 list = query.getResultList();
+			 price = list.get(0).getPrice();
+		}else{
+			 price = list.get(0).getPrice();
+		}
+		return price;
 	}
 }

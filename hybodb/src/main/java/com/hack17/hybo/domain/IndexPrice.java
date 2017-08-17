@@ -20,22 +20,22 @@ public class IndexPrice {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	int id;
 	
-	@Column
+	@Column(name="idx")
 	String index;
 	
-	@Column
+	@Column(name="dt")
 	Date date;
-	@Column
-	double open;
-	@Column
-	double high;
-	@Column
-	double low;
-	@Column
-	double price;
-	@Column
+	@Column(name="op")
+	Double open;
+	@Column(name="hgh")
+	Double high;
+	@Column(name="lw")
+	Double low;
+	@Column(name="prc")
+	Double price;
+	@Column(name="vlm")
 	int volumn;
-	@Column
+	@Column(name="chg")
 	double change;
 	
 }
