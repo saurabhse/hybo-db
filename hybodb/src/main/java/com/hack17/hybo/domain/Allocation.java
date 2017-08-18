@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Type;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -36,6 +38,7 @@ public class Allocation {
 	private String isActive;
 	@Transient
 	private Date holdTillDate;
+	private String createdBy;
 	public Allocation(Fund fund, double costPrice, int quantity,
 			double percentage, Date transactionDate, double expenseRatio,double investment) {
 		super();
