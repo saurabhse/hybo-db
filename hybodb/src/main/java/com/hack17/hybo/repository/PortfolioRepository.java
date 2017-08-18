@@ -34,7 +34,12 @@ public class PortfolioRepository {
 	public List<Portfolio> getAllPortfolios(){
 		return entityManager.createQuery("from Portfolio", Portfolio.class).getResultList();
 	}
-	
+	public List<Portfolio> getAllPortfoliosBeforeDate(Date givenDate){
+		TypedQuery<Portfolio> query = entityManager.createQuery("from Portfolio where transactionDate<=:givenDate", Portfolio.class);
+		query.setParameter("givenDate", givenDate,TemporalType.TIMESTAMP);
+		return query.getResultList();
+	}
+
 	public List<MarketWeight> getMarketWeight(int year){
 		TypedQuery<MarketWeight> query = entityManager.createQuery("from MarketWeight where year=:year",MarketWeight.class);
 		query.setParameter("year", year);
@@ -56,7 +61,7 @@ public class PortfolioRepository {
 	public List<IndexPrice> getIndexPrice(String index,Date date){
 		TypedQuery<IndexPrice> query = entityManager.createQuery("from IndexPrice where index=:index and date<:date",IndexPrice.class);
 		query.setParameter("index", index);
-		query.setParameter("date", date);
+		query.setParameter("date", date,TemporalType.TIMESTAMP);
 		return query.getResultList();
 	}
 	public List<Portfolio> getPortfolio(int clientId){
@@ -66,10 +71,9 @@ public class PortfolioRepository {
 	}
 	public double getIndexPriceForGivenDate(String ticker,Date date){
 		double price = 0d;
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		String formatedDate = sdf.format(date);
-		TypedQuery<IndexPrice> query = entityManager.createQuery("from IndexPrice where index=:ticker and date='"+formatedDate+"'",IndexPrice.class);
+		TypedQuery<IndexPrice> query = entityManager.createQuery("from IndexPrice where index=:ticker and date=:givenDate",IndexPrice.class);
 		query.setParameter("ticker", ticker);
+		query.setParameter("givenDate", date,TemporalType.TIMESTAMP);
 		List<IndexPrice> list = query.getResultList();
 		if(list == null || list.size()==0){
 			 query = entityManager.createQuery("from IndexPrice where index=:ticker order by date desc",IndexPrice.class);

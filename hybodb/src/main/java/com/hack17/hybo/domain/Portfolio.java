@@ -2,9 +2,11 @@ package com.hack17.hybo.domain;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,6 +32,8 @@ public class Portfolio {
 	private List<Allocation> allocations = new ArrayList<>();
 	@OneToOne//(cascade=CascadeType.ALL)
 	private InvestorProfile investorProfile;
+	@Column
+	private Date transactionDate;
 
 	public List<Allocation> getAllocations() {
 		// TODO Auto-generated method stub
