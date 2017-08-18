@@ -18,6 +18,7 @@
         <class>com.hack17.hybo.domain.Transaction</class>
         <class>com.hack17.hybo.domain.MarketWeight</class>
         <class>com.hack17.hybo.domain.MarketStatus</class>
+        <class>com.hack17.hybo.domain.CurrentDate</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 
 	</persistence-unit>
