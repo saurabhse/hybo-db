@@ -15,6 +15,7 @@ import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import com.hack17.hybo.domain.IndexPrice;
+import com.hack17.hybo.domain.InvestorProfile;
 import com.hack17.hybo.domain.MarketStatus;
 import com.hack17.hybo.domain.MarketWeight;
 import com.hack17.hybo.domain.Portfolio;
@@ -33,6 +34,9 @@ public class PortfolioRepository {
 	
 	public List<Portfolio> getAllPortfolios(){
 		return entityManager.createQuery("from Portfolio", Portfolio.class).getResultList();
+	}
+	public List<InvestorProfile> getAllInvestorProfile(){
+		return entityManager.createQuery("from InvestorProfile", InvestorProfile.class).getResultList();
 	}
 	public List<Portfolio> getAllPortfoliosBeforeDate(Date givenDate){
 		TypedQuery<Portfolio> query = entityManager.createQuery("from Portfolio where transactionDate<=:givenDate", Portfolio.class);

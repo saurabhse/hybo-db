@@ -13,3 +13,7 @@ http://localhost:8090/process/updateDate?date=20120101
 
 //update market status
 http://localhost:8090/process/updateMarketStatus?fluc=Y&down=N&up=N
+
+
+//rebalance
+http://localhost:8090/black/rebalance

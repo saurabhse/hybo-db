@@ -56,4 +56,14 @@ public class DateTimeUtil {
 	public static String format2(Date date){
 		return sdf2.format(date);
 	}
+	public static int getDateDifferenceInDays(Date presentDate,Date pastDate){
+		int diff = 0;
+		try{
+			long diffInMills = presentDate.getTime()-pastDate.getTime();
+			diff = Long.valueOf(diffInMills/1000/60/60/24).intValue();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return diff;
+	}
 }
