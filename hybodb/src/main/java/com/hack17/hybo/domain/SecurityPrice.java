@@ -14,9 +14,9 @@ import lombok.Data;
 @Entity
 public class SecurityPrice {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	private String ticker;
-	private Double price;
+	private double price;
 	private Date priceDate;
 }

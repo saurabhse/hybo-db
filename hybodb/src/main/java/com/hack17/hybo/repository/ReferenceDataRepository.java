@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
 
@@ -42,6 +43,41 @@ public class ReferenceDataRepository {
 				.createQuery("from CorrelatedFund cf where cf.ticker=:ticker",
 						CorrelatedFund.class).setParameter("ticker", ticker)
 				.getSingleResult().getCorrelatedTicker();
+	}
+	
+	@Transactional
+	public void createPrice(String ticker, double price, Date priceDate){
+		SecurityPrice secPrice = new SecurityPrice();
+		secPrice.setTicker(ticker);
+		secPrice.setPrice(price);
+		secPrice.setPriceDate(priceDate);
+		entityManager.persist(secPrice);
+	}
+	
+	@Transactional
+	public void createCorrelatedFund(String ticker, String correlatedTicker){
+		CorrelatedFund correlatedFund = new CorrelatedFund();
+		correlatedFund.setTicker(ticker);
+		correlatedFund.setCorrelatedTicker(correlatedTicker);
+		entityManager.persist(correlatedFund);
+		//create opposite mapping as well
+		correlatedFund = new CorrelatedFund();
+		correlatedFund.setTicker(correlatedTicker);
+		correlatedFund.setCorrelatedTicker(ticker);
+		entityManager.persist(correlatedFund);
+	}
+	
+	public void deleteAllPrices(){
+		entityManager.createQuery("delete from SecurityPrice").executeUpdate();
+	}
+	
+	public void deleteAllCorrelatedFunds(){
+		entityManager.createQuery("delete from CorrelatedFund").executeUpdate();
+	}
+	
+	public <T> List<T> getAll(Class<T> clazz){
+		String query = String.format("select t from %s t",clazz.getSimpleName());
+		return entityManager.createQuery(query).getResultList();
 	}
 
 }

@@ -26,7 +26,7 @@ public class InvestorProfile {
 	private RiskTolerance riskTolerance;
 	private int investmentHorizonInMonths;
 	private Date horizonAsOfDate;
-	@Transient
+	//@Transient
 	private int annualIncome=200000;
 
 	public InvestorProfile(Date dateOfBirth, RiskTolerance riskTolerance,
@@ -36,6 +36,12 @@ public class InvestorProfile {
 		this.riskTolerance = riskTolerance;
 		this.investmentHorizonInMonths = investmentHorizon;
 		this.horizonAsOfDate = horizonAsOfDate;
+	}
+	
+	public InvestorProfile(Date dateOfBirth, RiskTolerance riskTolerance,
+			int investmentHorizon, Date horizonAsOfDate, int annualIncome) {
+		this(dateOfBirth, riskTolerance, investmentHorizon, horizonAsOfDate);
+		this.annualIncome = annualIncome;
 	}
 
 	@Override

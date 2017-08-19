@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 import javax.persistence.EntityManager;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,11 +52,11 @@ public class HybodbApplicationTests {
 	
 	@Before
 	public void setUp() throws Exception {
-		createFunds();
-		createInvestorProfile();
-		createPortfolios();
+		//createFunds();
+		//createInvestorProfile();
+		//createPortfolios();
 		//createAllocations();
-		createPrice();
+		//createPrice();
 		createCorrelatedFund();
 	}
 
@@ -135,7 +136,7 @@ public class HybodbApplicationTests {
 	}
 
 	private void createInvestorProfile() {
-		InvestorProfile investorProfile = new InvestorProfile(getDate("Apr 7, 1972"), RiskTolerance.MEDIUM, 26, getDate("Jan 1, 2017"));
+		InvestorProfile investorProfile = new InvestorProfile(getDate("Apr 7, 1972"), RiskTolerance.MODERATE, 26, getDate("Jan 1, 2017"));
 		//investorProfile.setId(501);
 		entityManager.persist(investorProfile);
 		entityManager.flush();
@@ -279,17 +280,17 @@ public class HybodbApplicationTests {
 		entityManager.flush();
 	}
 	
-	@Test
+	@Test 
 	@Transactional
 	@Rollback(false)
 	public void portfolioLoads() {
 		Portfolio portfolio = entityManager.createQuery("from Portfolio", Portfolio.class).getResultList().get(0);
 		System.out.println(portfolio);
 		assertNotNull(portfolio);
-		Optional<Allocation> allocation = portfolio.getAllocations().stream().filter(alloc->alloc.getFund().getTicker().equals("MUB")).findFirst();
-		dbLoggerService.logTransaction(allocation.get(), 65d, new Date(), 100);
-		allocation.get().setQuantity(1200);
-		entityManager.persist(allocation.get());
+//		Optional<Allocation> allocation = portfolio.getAllocations().stream().filter(alloc->alloc.getFund().getTicker().equals("MUB")).findFirst();
+//		dbLoggerService.logTransaction(allocation.get(), 65d, new Date(), 100);
+//		allocation.get().setQuantity(1200);
+//		entityManager.persist(allocation.get());
 	}
 
 }

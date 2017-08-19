@@ -24,9 +24,9 @@ public class JpaConfiguration {
 	@Bean
 	public Map<String, Object> jpaProperties() {
 		Map<String, Object> props = new HashMap<String, Object>();
-		props.put("hibernate.dialect", org.hibernate.dialect.MySQLDialect.class.getName());
+		props.put("hibernate.dialect", org.hibernate.dialect.H2Dialect.class.getName());
 //		props.put("hibernate.cache.provider_class", HashtableCacheProvider.class.getName());		
-		props.put("hibernate.hbm2ddl.auto", "update");		
+		props.put("hibernate.hbm2ddl.auto", "create");		
 		props.put("hibernate.show_sql", "false");		
 		props.put("hibernate.type", "trace");		
 				return props;

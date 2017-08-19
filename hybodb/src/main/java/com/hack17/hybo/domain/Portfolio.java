@@ -27,7 +27,7 @@ public class Portfolio {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 	private int clientId;
-	@OneToMany(cascade=CascadeType.ALL)
+	@OneToMany(cascade=CascadeType.ALL, orphanRemoval=true)
 	@Fetch(FetchMode.JOIN)
 	private List<Allocation> allocations = new ArrayList<>();
 	@OneToOne//(cascade=CascadeType.ALL)
@@ -36,7 +36,6 @@ public class Portfolio {
 	private Date transactionDate;
 
 	public List<Allocation> getAllocations() {
-		// TODO Auto-generated method stub
 		return allocations;
 	}
 

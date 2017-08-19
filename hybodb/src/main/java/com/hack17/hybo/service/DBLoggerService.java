@@ -19,7 +19,7 @@ public class DBLoggerService {
 	private EntityManager entityManager;
 	
 	@Transactional
-	public void logTransaction(Allocation allocation, double sellPrice, Date sellDate, double sellQuantity){
+	public void logTransaction(Allocation allocation, double sellPrice, Date sellDate, double sellQuantity, Action action){
 		Transaction transaction = new Transaction();
 		transaction.setPortfolio(allocation.getPortfolio());
 		transaction.setFund(allocation.getFund());
@@ -28,8 +28,7 @@ public class DBLoggerService {
 		transaction.setSellDate(sellDate);
 		transaction.setSellPrice(sellPrice);
 		transaction.setSellQuantity(sellQuantity);
-		transaction.setAction(Action.SELL);
+		transaction.setAction(action);
 		entityManager.persist(transaction);
-		//entityManager.flush();
 	}
 }

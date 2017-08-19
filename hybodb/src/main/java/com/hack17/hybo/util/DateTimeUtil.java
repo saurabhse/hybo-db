@@ -66,4 +66,18 @@ public class DateTimeUtil {
 		}
 		return diff;
 	}
+	public static Date add(Date date, int type, int numberToAdd){
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.add(type, numberToAdd);
+		return cal.getTime();
+	}
+	
+	public static boolean isMoreThanYearOld(Date date1, Date date2){
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date2);
+		cal.add(Calendar.YEAR, -1);
+		Date date2PreviousYear = cal.getTime();
+		return date2PreviousYear.before(date1);
+	}
 }
