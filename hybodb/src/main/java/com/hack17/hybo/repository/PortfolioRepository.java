@@ -28,6 +28,9 @@ public class PortfolioRepository {
 	public Object getEntity(int id,Class object){
 		return entityManager.find(object, id);
 	}
+	public Object getEntityForAny(Class object,Object key){
+		return entityManager.find(object, key);
+	}
 	public Portfolio getPortfolio(long portfolioId){
 		return entityManager.find(Portfolio.class, portfolioId);
 	}
