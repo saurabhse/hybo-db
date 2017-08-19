@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 public class InvestorProfile {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 	private Date dateOfBirth;
 	@Enumerated(EnumType.STRING)

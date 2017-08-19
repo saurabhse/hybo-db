@@ -27,8 +27,11 @@ public class Allocation {
 	@ManyToOne//(cascade=CascadeType.ALL)
 	private Fund fund;
 	private double costPrice;
+	private double rebalanceDayPrice;
 	private int quantity;
+	private int rebalanceDayQuantity;
 	private double percentage;
+	private double rebalanceDayPerc;
 	private Date transactionDate;
 	private double expenseRatio;
 	private double investment;

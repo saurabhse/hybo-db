@@ -19,6 +19,7 @@ import com.hack17.hybo.domain.InvestorProfile;
 import com.hack17.hybo.domain.MarketStatus;
 import com.hack17.hybo.domain.MarketWeight;
 import com.hack17.hybo.domain.Portfolio;
+import com.hack17.hybo.domain.UserClientMapping;
 
 @Repository
 public class PortfolioRepository {
@@ -40,6 +41,9 @@ public class PortfolioRepository {
 	}
 	public List<InvestorProfile> getAllInvestorProfile(){
 		return entityManager.createQuery("from InvestorProfile", InvestorProfile.class).getResultList();
+	}
+	public List<UserClientMapping> getAllUsers(){
+		return entityManager.createQuery("from UserClientMapping", UserClientMapping.class).getResultList();
 	}
 	public List<Portfolio> getAllPortfoliosBeforeDate(Date givenDate){
 		TypedQuery<Portfolio> query = entityManager.createQuery("from Portfolio where transactionDate<=:givenDate", Portfolio.class);
