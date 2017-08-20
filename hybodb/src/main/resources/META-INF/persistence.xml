@@ -20,6 +20,8 @@
         <class>com.hack17.hybo.domain.MarketStatus</class>
         <class>com.hack17.hybo.domain.CurrentDate</class>
         <class>com.hack17.hybo.domain.UserClientMapping</class>
+        <class>com.hack17.hybo.domain.IncomeTaxSlab</class>
+        <class>com.hack17.hybo.domain.PortfolioTaxAlphaHistory</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 
 	</persistence-unit>

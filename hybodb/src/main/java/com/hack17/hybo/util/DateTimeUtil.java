@@ -11,7 +11,7 @@ public class DateTimeUtil {
 	public static final String FROM = "from";
 	private static DateFormat sdf = DateFormat.getDateInstance(DateFormat.DEFAULT);
 	private static DateFormat sdf2 = new SimpleDateFormat("dd-MMM-yy");
-	public static Date getDate(String date){
+	public static Date getDateMMMddyyyy(String date){
 		try {
 			return sdf.parse(date);
 		} catch (ParseException e) {			
@@ -20,7 +20,7 @@ public class DateTimeUtil {
 		}
 	}
 	
-	public static Date getDate2(String date){
+	public static Date getDatedd_MMM_yyyy(String date){
 		try {
 			return sdf2.parse(date);
 		} catch (ParseException e) {			
@@ -34,14 +34,12 @@ public class DateTimeUtil {
 		cal.setTime(date);
 		switch(dateType){
 		case FROM:
-			System.out.println(FROM);
-			cal.set(Calendar.MONTH, 9);
-			cal.set(Calendar.DATE, 1);
 			if(cal.get(Calendar.MONTH)<=8)
 				cal.add(Calendar.YEAR, -1);
+			cal.set(Calendar.MONTH, 9);
+			cal.set(Calendar.DATE, 1);
 			return cal.getTime();
 		case TO:
-			System.out.println(TO);
 			if(cal.get(Calendar.MONTH)>=9)
 				cal.add(Calendar.YEAR, 1);
 			cal.set(Calendar.MONTH, 8);
@@ -78,6 +76,21 @@ public class DateTimeUtil {
 		cal.setTime(date2);
 		cal.add(Calendar.YEAR, -1);
 		Date date2PreviousYear = cal.getTime();
-		return date2PreviousYear.before(date1);
+		return date2PreviousYear.after(date1);
+	}
+
+	public static boolean isDay(Date today, int day) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(today);
+		
+		return cal.get(Calendar.DAY_OF_MONTH)==day;
+		
+	}
+
+	public static boolean isMonth(Date today, int month) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(today);
+		
+		return cal.get(Calendar.MONTH)==month-1;
 	}
 }

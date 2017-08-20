@@ -1,6 +1,6 @@
 package com.hack17.hybo.repository;
 
-import static com.hack17.hybo.util.DateTimeUtil.getDate;
+import static com.hack17.hybo.util.DateTimeUtil.getDateMMMddyyyy;
 
 import java.util.Date;
 

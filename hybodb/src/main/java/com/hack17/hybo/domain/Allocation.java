@@ -60,5 +60,10 @@ public class Allocation {
 		this.createdBy = createdBy;
 	}
 	
+	public Allocation(Fund fund, double costPrice, int quantity,
+			double percentage, Date transactionDate, double expenseRatio,double investment, String createdBy, Portfolio portfolio) {
+		this(fund, costPrice, quantity, percentage, transactionDate, expenseRatio, investment,createdBy);
+		this.portfolio = portfolio;
+	}
 	
 }

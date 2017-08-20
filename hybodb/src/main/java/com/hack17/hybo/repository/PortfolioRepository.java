@@ -9,6 +9,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -19,6 +20,7 @@ import com.hack17.hybo.domain.InvestorProfile;
 import com.hack17.hybo.domain.MarketStatus;
 import com.hack17.hybo.domain.MarketWeight;
 import com.hack17.hybo.domain.Portfolio;
+import com.hack17.hybo.domain.PortfolioTaxAlphaHistory;
 import com.hack17.hybo.domain.UserClientMapping;
 
 @Repository
@@ -56,6 +58,7 @@ public class PortfolioRepository {
 		query.setParameter("year", year);
 		return query.getResultList();
 	}
+	@Transactional
 	public void persist(Object portfolio){
 		entityManager.persist(portfolio);
 	}
@@ -96,4 +99,13 @@ public class PortfolioRepository {
 		}
 		return price;
 	}
+	
+	public List<PortfolioTaxAlphaHistory> getPortfolioTaxAlphaHistory(Portfolio portfolio, Date date){
+		TypedQuery<PortfolioTaxAlphaHistory> query = entityManager.createQuery("from PortfolioTaxAlphaHistory where portfolio=? and asOfDate=?",PortfolioTaxAlphaHistory.class);
+		query.setParameter(1, portfolio);
+		query.setParameter(2, date);
+		return query.getResultList();
+	}
+	
+	
 }

@@ -40,7 +40,7 @@ public class IncomeTaxSlabRepository {
 	public List<IncomeTaxSlab> getSlabsForIncomeAndProfile(IncomeTaxSlab.TaxProfileType taxProfileType, Double income){
 		if(taxProfileType==null)
 			taxProfileType = IncomeTaxSlab.TaxProfileType.HEAD_OF_HOUSEHOLD;
-		TypedQuery<IncomeTaxSlab> query = entityManager.createQuery("from IncomeTaxSlab where taxProfileType=? and slabStart <= ? slabStart", IncomeTaxSlab.class);
+		TypedQuery<IncomeTaxSlab> query = entityManager.createQuery("from IncomeTaxSlab where taxProfileType=? and slabStart < ?", IncomeTaxSlab.class);
 		query.setParameter(1, taxProfileType);
 		query.setParameter(2, income);
 		return query.getResultList();

@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class IncomeTaxSlab {
 	public static enum TaxProfileType{
 		SINGLE, MARRIED_FILING_JOINTLY_OR_QUALIFYING_WIDOW, MARRIED_FILING_SEPARATELY, HEAD_OF_HOUSEHOLD
