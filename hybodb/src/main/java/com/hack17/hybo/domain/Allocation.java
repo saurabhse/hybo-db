@@ -42,6 +42,9 @@ public class Allocation {
 	@Transient
 	private Date holdTillDate;
 	private String createdBy;
+	
+	private Date buyDate;
+	
 	public Allocation(Fund fund, double costPrice, int quantity,
 			double percentage, Date transactionDate, double expenseRatio,double investment) {
 		super();
