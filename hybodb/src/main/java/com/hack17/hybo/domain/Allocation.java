@@ -13,6 +13,7 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Type;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -20,6 +21,7 @@ import lombok.ToString;
 @Entity
 @NoArgsConstructor
 @ToString(exclude="portfolio")
+@EqualsAndHashCode(exclude={"id", "isActive"})
 public class Allocation {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -32,19 +34,17 @@ public class Allocation {
 	private int rebalanceDayQuantity;
 	private double percentage;
 	private double rebalanceDayPerc;
+	private Date buyDate;
 	private Date transactionDate;
 	private double expenseRatio;
 	private double investment;
 	@ManyToOne
 	private Portfolio portfolio;
 	private String type;
-	private String isActive;
+	private String isActive = "Y";
 	@Transient
 	private Date holdTillDate;
 	private String createdBy;
-	
-	private Date buyDate;
-	
 	public Allocation(Fund fund, double costPrice, int quantity,
 			double percentage, Date transactionDate, double expenseRatio,double investment) {
 		super();
@@ -67,6 +67,12 @@ public class Allocation {
 			double percentage, Date transactionDate, double expenseRatio,double investment, String createdBy, Portfolio portfolio) {
 		this(fund, costPrice, quantity, percentage, transactionDate, expenseRatio, investment,createdBy);
 		this.portfolio = portfolio;
+	}
+	
+	public Allocation(Fund fund, double costPrice, int quantity,
+			double percentage, Date transactionDate, double expenseRatio,double investment, String createdBy, Date buyDate) {
+		this(fund, costPrice, quantity, percentage, transactionDate, expenseRatio, investment,createdBy);
+		this.buyDate = buyDate;
 	}
 	
 }

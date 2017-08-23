@@ -24,7 +24,7 @@ public class DBLoggerService {
 		Transaction transaction = new Transaction();
 		transaction.setPortfolio(allocation.getPortfolio());
 		transaction.setFund(allocation.getFund());
-		transaction.setBuyDate(allocation.getTransactionDate());
+		transaction.setBuyDate(allocation.getBuyDate());
 		transaction.setBuyPrice(allocation.getCostPrice());
 		transaction.setSellDate(sellDate);
 		transaction.setSellPrice(sellPrice);
@@ -38,7 +38,7 @@ public class DBLoggerService {
 		Transaction transaction = new Transaction();
 		transaction.setPortfolio(allocation.getPortfolio());
 		transaction.setFund(allocation.getFund());
-		transaction.setBuyDate(allocation.getTransactionDate());
+		transaction.setBuyDate(allocation.getBuyDate());
 		transaction.setBuyPrice(allocation.getCostPrice());
 		transaction.setSellDate(sellDate);
 		transaction.setSellPrice(sellPrice);
