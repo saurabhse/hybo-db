@@ -30,4 +30,13 @@ public class TLHAdvisorRepository {
 		.setParameter("toDate", toDate)
 		.getResultList();
 	}
+	
+	public List<TLHAdvice> findTLHAdviceOnDate(Portfolio portfolio, Date date){
+		return entityManager.createQuery("from TLHAdvice tlha where tlha.portfolio=? and cast(tlha.advisedOnDate as date) = ?", TLHAdvice.class)
+		.setParameter(1, portfolio)
+		.setParameter(2, date)
+		.getResultList();
+	}
+	
+	
 }

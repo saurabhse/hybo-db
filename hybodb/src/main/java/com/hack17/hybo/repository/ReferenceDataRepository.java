@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import com.hack17.hybo.domain.CorrelatedFund;
+import com.hack17.hybo.domain.Fund;
 import com.hack17.hybo.domain.SecurityPrice;
 
 @Repository
@@ -52,6 +53,13 @@ public class ReferenceDataRepository {
 		secPrice.setPrice(price);
 		secPrice.setPriceDate(priceDate);
 		entityManager.persist(secPrice);
+	}
+	
+	@Transactional
+	public void createFund(String ticker){
+		Fund fund = new Fund();
+		fund.setTicker(ticker);
+		entityManager.persist(fund);
 	}
 	
 	@Transactional

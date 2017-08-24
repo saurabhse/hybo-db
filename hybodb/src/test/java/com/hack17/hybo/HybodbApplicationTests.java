@@ -147,21 +147,6 @@ public class HybodbApplicationTests {
 	}
 
 	private void createPrice() {
-//		SecurityPrice price = new SecurityPrice();
-//		price.setTicker("VTI");
-//		price.setPrice(124d);
-//		price.setPriceDate(getDate("JUL 01, 2017"));
-//		entityManager.persist(price);
-//		price = new SecurityPrice();
-//		price.setTicker("VTV");
-//		price.setPrice(96d);
-//		price.setPriceDate(getDate("JUL 01, 2017"));
-//		entityManager.persist(price);
-//		price = new SecurityPrice();
-//		price.setTicker("VEA");
-//		price.setPrice(41d);
-//		price.setPriceDate(getDate("JUL 01, 2017"));
-//		entityManager.persist(price);
 		File priceDir = new File("./data/prices");
 		for(File priceFile : priceDir.listFiles()){
 			String fileName = priceFile.getName();
