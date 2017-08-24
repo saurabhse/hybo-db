@@ -120,7 +120,7 @@ public class ReportUtil implements BeanFactoryAware{
 			Date fromDate = DateTimeUtil.getFinancialYearDate(DateTimeUtil.FROM, today);
 			Date toDate = DateTimeUtil.getFinancialYearDate(DateTimeUtil.TO, today);
 			List<Transaction> transactions = getTransactionRepository().getTransactions(portfolio, fromDate, toDate, CreatedBy.TLH);
-			double tlh = transactions.stream().mapToDouble(tran->tran.getBuyPrice()*tran.getSellPrice()*tran.getSellQuantity()).sum();
+			double tlh = transactions.stream().mapToDouble(tran->tran.getBuyPrice()*tran.getSellPrice()*tran.getQuantity()).sum();
 			taxAlphaHist.setTotalTLH(tlh);
 			taxAlphaHist.setTaxAlpha((tlh*40/100)/portfolioValue);
 		}

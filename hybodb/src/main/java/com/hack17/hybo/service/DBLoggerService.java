@@ -28,7 +28,7 @@ public class DBLoggerService {
 		transaction.setBuyPrice(allocation.getCostPrice());
 		transaction.setSellDate(sellDate);
 		transaction.setSellPrice(sellPrice);
-		transaction.setSellQuantity(sellQuantity);
+		transaction.setQuantity(sellQuantity);
 		transaction.setAction(action);
 		entityManager.persist(transaction);
 	}
@@ -42,7 +42,7 @@ public class DBLoggerService {
 		transaction.setBuyPrice(allocation.getCostPrice());
 		transaction.setSellDate(sellDate);
 		transaction.setSellPrice(sellPrice);
-		transaction.setSellQuantity(sellQuantity);
+		transaction.setQuantity(sellQuantity);
 		transaction.setAction(action);
 		transaction.setCreatedBy(createdBy);
 		entityManager.persist(transaction);

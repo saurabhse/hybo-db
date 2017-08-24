@@ -26,7 +26,7 @@ public class Transaction {
 	private Date buyDate;
 	private double sellPrice;
 	private Date sellDate;
-	private double sellQuantity;
+	private double quantity;
 	@Enumerated(EnumType.STRING)
 	private Action action;
 	@Enumerated(EnumType.STRING)
