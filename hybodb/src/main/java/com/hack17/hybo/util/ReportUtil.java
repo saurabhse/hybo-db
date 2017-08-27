@@ -59,7 +59,7 @@ public class ReportUtil implements BeanFactoryAware{
 		
 		double portfolioValue = getCurrentTotalValue(currValueMap);
 		strBld.append(String.format("\n\nValue on %s - %s",format2(date),portfolioValue));
-		strBld.append(String.format("\nTax Alpha - %s", "not available"));
+//		strBld.append(String.format("\nTax Alpha - %s", "not available"));
 		return strBld.toString();
 	}
 
@@ -99,7 +99,7 @@ public class ReportUtil implements BeanFactoryAware{
 	
 	public static String format(Allocation allocation, double currentPrice){
 		StringBuilder strBld = new StringBuilder();
-		strBld.append(String.format("|%-5s|%10s|%10s|%10s|%10s|", allocation.getFund().getTicker(), allocation.getCostPrice(), allocation.getQuantity(), format2(allocation.getTransactionDate()),currentPrice));
+		strBld.append(String.format("|%-5s|%10s|%10s|%10s|%10s|", allocation.getFund().getTicker(), allocation.getCostPrice(), allocation.getQuantity(), format2(allocation.getBuyDate()),currentPrice));
 		return strBld.toString();
 	}
 	
