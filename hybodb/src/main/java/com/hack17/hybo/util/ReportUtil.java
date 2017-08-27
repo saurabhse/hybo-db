@@ -14,6 +14,8 @@ import java.util.List;
 
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -23,6 +25,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.data.convert.JodaTimeConverters.DateTimeToDateConverter;
 import org.springframework.stereotype.Component;
 
+import com.hack17.hybo.domain.Action;
 import com.hack17.hybo.domain.Allocation;
 import com.hack17.hybo.domain.CreatedBy;
 import com.hack17.hybo.domain.Portfolio;
@@ -34,6 +37,7 @@ import com.hack17.hybo.repository.TransactionRepository;
 
 @Component
 public class ReportUtil implements BeanFactoryAware{
+	public final static Logger logger = LoggerFactory.getLogger(ReportUtil.class);
 	
 	private static BeanFactory context;
 	
@@ -109,24 +113,43 @@ public class ReportUtil implements BeanFactoryAware{
 		
 	}
 
-	public static void createTLHHistory(Portfolio portfolio, Date today) {
-		if(getPortfolioRepository().getPortfolioTaxAlphaHistory(portfolio, today).size()!=0)
+	public static void createTLHHistory(Portfolio portfolio, Date currDate, Date runDate) {
+		if(getPortfolioRepository().getPortfolioTaxAlphaHistory(portfolio, runDate).size()!=0){
+			logger.info("tlh history already exists for portfolio {} for date {}", portfolio.getId(), runDate);
 			return;
+		}
 		Map<Allocation, Double[]> currValueMap = calculateCurrentValues(
-				portfolio, today);
+				portfolio, runDate);
 		double portfolioValue = getCurrentTotalValue(currValueMap);
 		PortfolioTaxAlphaHistory taxAlphaHist = new PortfolioTaxAlphaHistory();
 		taxAlphaHist.setPortfolio(portfolio);
 		taxAlphaHist.setPortfolioValue(portfolioValue);
-		taxAlphaHist.setAsOfDate(today);
-		if(DateTimeUtil.isMonth(today, 9) && DateTimeUtil.isDay(today, 30)){
-			Date fromDate = DateTimeUtil.getFinancialYearDate(DateTimeUtil.FROM, today);
-			Date toDate = DateTimeUtil.getFinancialYearDate(DateTimeUtil.TO, today);
+		taxAlphaHist.setAsOfDate(runDate);
+		if(DateTimeUtil.isMonth(currDate, 9) && DateTimeUtil.isDay(currDate, 30)){
+			Date fromDate = DateTimeUtil.getFinancialYearDate(DateTimeUtil.FROM, runDate);
+			Date toDate = DateTimeUtil.getFinancialYearDate(DateTimeUtil.TO, runDate);
 			List<Transaction> transactions = getTransactionRepository().getTransactions(portfolio, fromDate, toDate, CreatedBy.TLH);
-			double tlh = transactions.stream().mapToDouble(tran->tran.getBuyPrice()*tran.getSellPrice()*tran.getQuantity()).sum();
+			Date fromDateNextWorkDay = DateTimeUtil.getNextWorkingDay(fromDate);
+			double portfolioValueYearStart = getPortfolioValueYearStart(portfolio, fromDateNextWorkDay);
+			double tlh = transactions.stream().filter(tran-> tran.getAction().equals(Action.SELL)).mapToDouble(tran->(tran.getBuyPrice()-tran.getSellPrice())*tran.getQuantity()).sum();
 			taxAlphaHist.setTotalTLH(tlh);
-			taxAlphaHist.setTaxAlpha((tlh*40/100)/portfolioValue);
+			if(portfolioValueYearStart==-1){
+				taxAlphaHist.setTaxAlpha(-1);
+			}else{
+				taxAlphaHist.setTaxAlpha((tlh*40/100)/portfolioValueYearStart);
+				
+			}
 		}
 		getPortfolioRepository().persist(taxAlphaHist);
+	}
+
+	private static double getPortfolioValueYearStart(Portfolio portfolio,
+			Date fromDateNextWorkDay) {
+		List<PortfolioTaxAlphaHistory> taxAlphaHistYearStartList = getPortfolioRepository().getPortfolioTaxAlphaHistory(portfolio, fromDateNextWorkDay);
+		if(taxAlphaHistYearStartList.size()!= 1)
+			return -1;
+		PortfolioTaxAlphaHistory taxAlphaHistYearStart = taxAlphaHistYearStartList.get(0);
+		double portfolioValueYearStart = taxAlphaHistYearStart.getPortfolioValue();
+		return portfolioValueYearStart;
 	}
 }
