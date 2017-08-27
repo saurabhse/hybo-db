@@ -93,4 +93,31 @@ public class DateTimeUtil {
 		
 		return cal.get(Calendar.MONTH)==month-1;
 	}
+	
+	public static boolean isWeekend(Date today) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(today);
+		
+		return cal.get(Calendar.DAY_OF_WEEK)==1 || cal.get(Calendar.DAY_OF_WEEK)==7;
+	}
+	
+	public static Date getNextWorkingDay(Date today) {
+		if(!isWeekend(today))
+			return today;
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(today);
+		while(isWeekend(cal.getTime()))
+			cal.add(Calendar.DATE, 1);
+		return cal.getTime();
+	}
+	
+	public static Date getPreviousWorkingDay(Date today) {
+		if(!isWeekend(today))
+			return today;
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(today);
+		while(isWeekend(cal.getTime()))
+			cal.add(Calendar.DATE, -1);
+		return cal.getTime();
+	}
 }
