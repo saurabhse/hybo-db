@@ -22,6 +22,8 @@
         <class>com.hack17.hybo.domain.UserClientMapping</class>
         <class>com.hack17.hybo.domain.IncomeTaxSlab</class>
         <class>com.hack17.hybo.domain.PortfolioTaxAlphaHistory</class>
+        <class>com.hack17.hybo.domain.TLHRunPortfolioHistory</class>
+        <class>com.hack17.hybo.domain.TLHRunAllocationHistory</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 
 	</persistence-unit>

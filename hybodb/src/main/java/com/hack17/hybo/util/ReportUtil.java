@@ -30,6 +30,8 @@ import com.hack17.hybo.domain.Allocation;
 import com.hack17.hybo.domain.CreatedBy;
 import com.hack17.hybo.domain.Portfolio;
 import com.hack17.hybo.domain.PortfolioTaxAlphaHistory;
+import com.hack17.hybo.domain.TLHRunAllocationHistory;
+import com.hack17.hybo.domain.TLHRunPortfolioHistory;
 import com.hack17.hybo.domain.Transaction;
 import com.hack17.hybo.repository.PortfolioRepository;
 import com.hack17.hybo.repository.ReferenceDataRepository;
@@ -41,8 +43,8 @@ public class ReportUtil implements BeanFactoryAware{
 	
 	private static BeanFactory context;
 	
-	public static String format(Portfolio portfolio, Date date){
-		
+	public static String report(Portfolio portfolio, Date date, TLHRunPortfolioHistory tlhHistory){
+		List<TLHRunAllocationHistory> tlhAllocationHist = new ArrayList<>();
 		StringBuilder strBld = new StringBuilder();
 		strBld.append(String.format("\n\n\nPortfolio id - %d",portfolio.getId()));
 		
@@ -57,11 +59,20 @@ public class ReportUtil implements BeanFactoryAware{
 			if("N".equals(alloc.getIsActive())){
 				continue;
 			}
+			TLHRunAllocationHistory tlhAllocationHistRec = new TLHRunAllocationHistory(alloc);
+			tlhAllocationHistRec.setCurrentPrice(currValueMap.get(alloc)[0]);
+			tlhAllocationHist.add(tlhAllocationHistRec);
 			strBld.append(String.format("\n%-70s\n", new String(dash)));
 			strBld.append(format(alloc, currValueMap.get(alloc)[0]));
 		}
-		
+		tlhHistory.setAllocations(tlhAllocationHist);
 		double portfolioValue = getCurrentTotalValue(currValueMap);
+		tlhHistory.setPortfolioId(portfolio.getId());
+		tlhHistory.setPortfolioValue(portfolioValue);
+		tlhHistory.setRunDate(DateTimeUtil.format2(date));
+		Date fromDate = DateTimeUtil.getFinancialYearDate(DateTimeUtil.FROM, date);
+		double tlh = getTLHForDates(portfolio, fromDate, date);
+		tlhHistory.setTlhValue(tlh);
 		strBld.append(String.format("\n\nValue on %s - %s",format2(date),portfolioValue));
 //		strBld.append(String.format("\nTax Alpha - %s", "not available"));
 		return strBld.toString();
@@ -128,10 +139,9 @@ public class ReportUtil implements BeanFactoryAware{
 		if(DateTimeUtil.isMonth(currDate, 9) && DateTimeUtil.isDay(currDate, 30)){
 			Date fromDate = DateTimeUtil.getFinancialYearDate(DateTimeUtil.FROM, runDate);
 			Date toDate = DateTimeUtil.getFinancialYearDate(DateTimeUtil.TO, runDate);
-			List<Transaction> transactions = getTransactionRepository().getTransactions(portfolio, fromDate, toDate, CreatedBy.TLH);
+			double tlh = getTLHForDates(portfolio, fromDate, toDate);
 			Date fromDateNextWorkDay = DateTimeUtil.getNextWorkingDay(fromDate);
 			double portfolioValueYearStart = getPortfolioValueYearStart(portfolio, fromDateNextWorkDay);
-			double tlh = transactions.stream().filter(tran-> tran.getAction().equals(Action.SELL)).mapToDouble(tran->(tran.getBuyPrice()-tran.getSellPrice())*tran.getQuantity()).sum();
 			taxAlphaHist.setTotalTLH(tlh);
 			if(portfolioValueYearStart==-1){
 				taxAlphaHist.setTaxAlpha(-1);
@@ -141,6 +151,13 @@ public class ReportUtil implements BeanFactoryAware{
 			}
 		}
 		getPortfolioRepository().persist(taxAlphaHist);
+	}
+
+	private static double getTLHForDates(Portfolio portfolio, Date fromDate,
+			Date toDate) {
+		List<Transaction> transactions = getTransactionRepository().getTransactions(portfolio, fromDate, toDate, CreatedBy.TLH);
+		double tlh = transactions.stream().filter(tran-> tran.getAction().equals(Action.SELL)).mapToDouble(tran->(tran.getBuyPrice()-tran.getSellPrice())*tran.getQuantity()).sum();
+		return tlh;
 	}
 
 	private static double getPortfolioValueYearStart(Portfolio portfolio,

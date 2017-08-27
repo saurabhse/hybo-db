@@ -21,6 +21,7 @@ import com.hack17.hybo.domain.MarketStatus;
 import com.hack17.hybo.domain.MarketWeight;
 import com.hack17.hybo.domain.Portfolio;
 import com.hack17.hybo.domain.PortfolioTaxAlphaHistory;
+import com.hack17.hybo.domain.TLHRunPortfolioHistory;
 import com.hack17.hybo.domain.Transaction;
 import com.hack17.hybo.domain.UserClientMapping;
 
@@ -115,6 +116,12 @@ public class PortfolioRepository {
 		TypedQuery<PortfolioTaxAlphaHistory> query = entityManager.createQuery("from PortfolioTaxAlphaHistory where portfolio=? and asOfDate=?",PortfolioTaxAlphaHistory.class);
 		query.setParameter(1, portfolio);
 		query.setParameter(2, date);
+		return query.getResultList();
+	}
+	
+	public List<TLHRunPortfolioHistory> getTLHRunHistory(long portfolioId){
+		TypedQuery<TLHRunPortfolioHistory> query = entityManager.createQuery("from TLHRunPortfolioHistory where portfolioId=?",TLHRunPortfolioHistory.class);
+		query.setParameter(1, portfolioId);
 		return query.getResultList();
 	}
 	
