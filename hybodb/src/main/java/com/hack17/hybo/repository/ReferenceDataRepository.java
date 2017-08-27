@@ -40,10 +40,16 @@ public class ReferenceDataRepository {
 	}
 
 	public String getCorrelatedTicker(String ticker) {
-		return entityManager
-				.createQuery("from CorrelatedFund cf where cf.ticker=:ticker",
-						CorrelatedFund.class).setParameter("ticker", ticker)
-				.getSingleResult().getCorrelatedTicker();
+		String alternateTicker = null;
+		try{
+			alternateTicker = entityManager
+			.createQuery("from CorrelatedFund cf where cf.ticker=:ticker",
+					CorrelatedFund.class).setParameter("ticker", ticker)
+			.getSingleResult().getCorrelatedTicker();
+		}catch(Exception ex){
+			return alternateTicker;
+		}
+		return alternateTicker;
 	}
 	
 	@Transactional
