@@ -21,6 +21,7 @@ import com.hack17.hybo.domain.MarketStatus;
 import com.hack17.hybo.domain.MarketWeight;
 import com.hack17.hybo.domain.Portfolio;
 import com.hack17.hybo.domain.PortfolioTaxAlphaHistory;
+import com.hack17.hybo.domain.Transaction;
 import com.hack17.hybo.domain.UserClientMapping;
 
 @Repository
@@ -40,6 +41,9 @@ public class PortfolioRepository {
 	
 	public List<Portfolio> getAllPortfolios(){
 		return entityManager.createQuery("from Portfolio", Portfolio.class).getResultList();
+	}
+	public List<Transaction> getAllTransactions(){
+		return entityManager.createQuery("from Transaction", Transaction.class).getResultList();
 	}
 	public List<InvestorProfile> getAllInvestorProfile(){
 		return entityManager.createQuery("from InvestorProfile", InvestorProfile.class).getResultList();
