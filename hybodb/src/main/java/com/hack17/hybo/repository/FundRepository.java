@@ -19,8 +19,14 @@ public class FundRepository {
 		return fund;
 	}
 	
-	public Fund findFund(String fundTicker) {		
-		return entityManager.createQuery(String.format("from Fund f where f.ticker='%s'",fundTicker),  Fund.class).getSingleResult();
+	public Fund findFund(String fundTicker) {
+		Fund fund = null; 
+		try{
+			fund = entityManager.createQuery(String.format("from Fund f where f.ticker='%s'",fundTicker),  Fund.class).getSingleResult();
+		}catch(Exception ex){
+			return fund;
+		}
+		return fund;
 	}
 	
 	public void deleteAllFunds(){

@@ -44,14 +44,17 @@ public class ReportUtil implements BeanFactoryAware{
 		
 		char [] dash = new char[50];
 		Arrays.fill(dash, '-');
-		Map<String, Double[]> currValueMap = calculateCurrentValues(
+		Map<Allocation, Double[]> currValueMap = calculateCurrentValues(
 				portfolio, date);
 		strBld.append(String.format("\n%-70s\n", new String(dash)));
 		strBld.append(String.format("|%-5s|%10s|%10s|%10s|%10s|", "Ticker", "Cost Price", "Quantity", "Buy Date","Current Price"));
 		for(int index=0; index<portfolio.getAllocations().size();index++){
-			strBld.append(String.format("\n%-70s\n", new String(dash)));
 			Allocation alloc = portfolio.getAllocations().get(index);
-			strBld.append(format(alloc, currValueMap.get(alloc.getFund().getTicker())[0]));
+			if("N".equals(alloc.getIsActive())){
+				continue;
+			}
+			strBld.append(String.format("\n%-70s\n", new String(dash)));
+			strBld.append(format(alloc, currValueMap.get(alloc)[0]));
 		}
 		
 		double portfolioValue = getCurrentTotalValue(currValueMap);
@@ -61,20 +64,20 @@ public class ReportUtil implements BeanFactoryAware{
 	}
 
 	private static double getCurrentTotalValue(
-			Map<String, Double[]> currValueMap) {
+			Map<Allocation, Double[]> currValueMap) {
 		return currValueMap.values().stream().mapToDouble(d-> d[1]).sum();
 	}
 
-	private static Map<String, Double[]> calculateCurrentValues(
+	private static Map<Allocation, Double[]> calculateCurrentValues(
 			Portfolio portfolio, Date date) {
 		ReferenceDataRepository refDataRepo = getRefDataRepository();
-		Map<String, Double[]> currValueMap = new HashMap<>();
-		portfolio.getAllocations().forEach(alloc->{
+		Map<Allocation, Double[]> currValueMap = new HashMap<>();
+		portfolio.getAllocations().stream().filter(alloc-> "Y".equals(alloc.getIsActive())).forEach(alloc->{
 			double currVal = refDataRepo.getPriceOnDate(alloc.getFund().getTicker(), date);
 			Double[] currPrices = new Double[2];
 			currPrices[0]= currVal;
 			currPrices[1]= currVal*alloc.getQuantity();
-			currValueMap.put(alloc.getFund().getTicker(), currPrices);
+			currValueMap.put(alloc, currPrices);
 		});
 		return currValueMap;
 	}
@@ -109,7 +112,7 @@ public class ReportUtil implements BeanFactoryAware{
 	public static void createTLHHistory(Portfolio portfolio, Date today) {
 		if(getPortfolioRepository().getPortfolioTaxAlphaHistory(portfolio, today).size()!=0)
 			return;
-		Map<String, Double[]> currValueMap = calculateCurrentValues(
+		Map<Allocation, Double[]> currValueMap = calculateCurrentValues(
 				portfolio, today);
 		double portfolioValue = getCurrentTotalValue(currValueMap);
 		PortfolioTaxAlphaHistory taxAlphaHist = new PortfolioTaxAlphaHistory();
