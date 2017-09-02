@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
@@ -24,7 +25,8 @@ public class TLHRunPortfolioHistory {
 	@JsonProperty(value="Portfolio Value")
 	private double portfolioValue;
 	@JsonProperty(value="Current Date")
-	private String runDate;
+	@JsonFormat(pattern="dd-MMM-yyyy")
+	private Date runDate;
 	@JsonProperty(value="Tax Loss Harvesting YTD")
 	private double tlhValue;
 	@JsonProperty(value="Tax Alpha")

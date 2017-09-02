@@ -128,5 +128,12 @@ public class PortfolioRepository {
 		return query.getResultList();
 	}
 	
+	public List<TLHRunPortfolioHistory> getTLHRunHistory(long portfolioId, Date date){
+		TypedQuery<TLHRunPortfolioHistory> query = entityManager.createQuery("from TLHRunPortfolioHistory where portfolioId=? and runDate=?",TLHRunPortfolioHistory.class);
+		query.setParameter(1, portfolioId);
+		query.setParameter(2, date);
+		return query.getResultList();
+	}
+	
 	
 }

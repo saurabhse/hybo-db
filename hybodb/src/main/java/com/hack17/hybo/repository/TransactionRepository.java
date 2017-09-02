@@ -9,6 +9,7 @@ import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
+import com.hack17.hybo.domain.Action;
 import com.hack17.hybo.domain.CreatedBy;
 import com.hack17.hybo.domain.Fund;
 import com.hack17.hybo.domain.Portfolio;
@@ -28,6 +29,18 @@ public class TransactionRepository {
 		query.setParameter(4, toDate);
 		return query.getResultList();
 	}
+	
+	public List<Transaction> getTransactions(Fund fund, Portfolio portfolio, Date fromDate, Date toDate, Action action){
+		TypedQuery<Transaction> query = entityManager.createQuery("from Transaction where fund=? and portfolio=? and sellDate between ? and ? and action=?", Transaction.class); 
+		query.setParameter(1, fund);
+		query.setParameter(2, portfolio);
+		query.setParameter(3, fromDate);
+		query.setParameter(4, toDate);
+		query.setParameter(5, action);
+		return query.getResultList();
+	}
+	
+	
 	
 	public List<Transaction> getTransactions(Portfolio portfolio, Date fromDate, Date toDate){
 		TypedQuery<Transaction> query = entityManager.createQuery("from Transaction where portfolio=? and sellDate between ? and ?", Transaction.class); 

@@ -43,7 +43,7 @@ public class ReportUtil implements BeanFactoryAware{
 	
 	private static BeanFactory context;
 	
-	public static String report(Portfolio portfolio, Date date, TLHRunPortfolioHistory tlhHistory){
+	public static String report(Portfolio portfolio, Date date, TLHRunPortfolioHistory tlhRunHistory){
 		List<TLHRunAllocationHistory> tlhAllocationHist = new ArrayList<>();
 		StringBuilder strBld = new StringBuilder();
 		strBld.append(String.format("\n\n\nPortfolio id - %d",portfolio.getId()));
@@ -65,14 +65,18 @@ public class ReportUtil implements BeanFactoryAware{
 			strBld.append(String.format("\n%-70s\n", new String(dash)));
 			strBld.append(format(alloc, currValueMap.get(alloc)[0]));
 		}
-		tlhHistory.setAllocations(tlhAllocationHist);
+		tlhRunHistory.setAllocations(tlhAllocationHist);
 		double portfolioValue = getCurrentTotalValue(currValueMap);
-		tlhHistory.setPortfolioId(portfolio.getId());
-		tlhHistory.setPortfolioValue(portfolioValue);
-		tlhHistory.setRunDate(DateTimeUtil.format2(date));
+		tlhRunHistory.setPortfolioId(portfolio.getId());
+		tlhRunHistory.setPortfolioValue(portfolioValue);
+		tlhRunHistory.setRunDate(date);
 		Date fromDate = DateTimeUtil.getFinancialYearDate(DateTimeUtil.FROM, date);
 		double tlh = getTLHForDates(portfolio, fromDate, date);
-		tlhHistory.setTlhValue(tlh);
+		tlhRunHistory.setTlhValue(tlh*40/100);
+		List<TLHRunPortfolioHistory> tlhRunPortfolioHistoryList =  getPortfolioRepository().getTLHRunHistory(portfolio.getId(), fromDate);
+		if(tlhRunPortfolioHistoryList.size()==1){
+			tlhRunHistory.setTaxAlpha((tlh*40/100)/tlhRunPortfolioHistoryList.get(0).getPortfolioValue());
+		}
 		strBld.append(String.format("\n\nValue on %s - %s",format2(date),portfolioValue));
 //		strBld.append(String.format("\nTax Alpha - %s", "not available"));
 		return strBld.toString();
