@@ -43,6 +43,9 @@ public class PortfolioRepository {
 	public List<Portfolio> getAllPortfolios(){
 		return entityManager.createQuery("from Portfolio", Portfolio.class).getResultList();
 	}
+	public List<IndexPrice> getAllIndexPrice(){
+		return entityManager.createQuery("from IndexPrice", IndexPrice.class).getResultList();
+	}
 	public List<Transaction> getAllTransactions(){
 		return entityManager.createQuery("from Transaction", Transaction.class).getResultList();
 	}
