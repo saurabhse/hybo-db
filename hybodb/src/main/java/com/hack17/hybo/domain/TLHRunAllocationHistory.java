@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hack17.hybo.util.DateTimeUtil;
 
@@ -19,6 +20,7 @@ import lombok.NoArgsConstructor;
 public class TLHRunAllocationHistory {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@JsonIgnore
 	private long id;
 	@JsonProperty(value="Ticker")
 	private String ticker;
