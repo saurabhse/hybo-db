@@ -37,7 +37,7 @@ public class TLHRunAllocationHistory {
 	
 	public TLHRunAllocationHistory(Allocation allocation){
 		ticker = allocation.getFund().getTicker();
-		buyPrice = allocation.getCostPrice();
+		buyPrice = allocation.getRebalanceDayPrice();
 		quantity = allocation.getQuantity();
 		buyDate = DateTimeUtil.format2(allocation.getBuyDate());
 		createdBy = allocation.getCreatedBy();
