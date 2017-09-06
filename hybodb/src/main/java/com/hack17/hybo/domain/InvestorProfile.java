@@ -28,6 +28,7 @@ public class InvestorProfile {
 	private Date horizonAsOfDate;
 	//@Transient
 	private int annualIncome=200000;
+	private double liquidity;
 
 	public InvestorProfile(Date dateOfBirth, RiskTolerance riskTolerance,
 			int investmentHorizon, Date horizonAsOfDate) {
