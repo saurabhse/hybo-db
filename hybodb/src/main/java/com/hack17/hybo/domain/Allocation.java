@@ -22,7 +22,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString(exclude="portfolio")
 @EqualsAndHashCode(exclude={"id", "isActive"})
-public class Allocation {
+public class Allocation{
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
