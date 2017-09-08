@@ -21,7 +21,7 @@ import lombok.ToString;
 @Entity
 @NoArgsConstructor
 @ToString(exclude="portfolio")
-@EqualsAndHashCode(exclude={"id", "isActive"})
+@EqualsAndHashCode(exclude={"id", "isActive","transactionDate","createdBy"})
 public class Allocation{
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
