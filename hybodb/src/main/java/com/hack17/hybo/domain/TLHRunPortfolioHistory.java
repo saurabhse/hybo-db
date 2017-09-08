@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.hack17.hybo.util.DoubleFormatter;
 
 import lombok.Data;
 
@@ -30,8 +32,10 @@ public class TLHRunPortfolioHistory {
 	@JsonFormat(pattern="dd-MMM-yyyy")
 	private Date runDate;
 	@JsonProperty(value="Tax Loss Harvesting YTD")
+	@JsonSerialize(using=DoubleFormatter.class) 
 	private double tlhValue;
 	@JsonProperty(value="Tax Alpha")
+	@JsonSerialize(using=DoubleFormatter.class) 
 	private double taxAlpha;
 	@OneToMany(cascade=CascadeType.ALL)
 	List<TLHRunAllocationHistory> allocations;
