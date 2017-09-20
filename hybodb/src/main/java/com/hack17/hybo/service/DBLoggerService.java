@@ -39,12 +39,28 @@ public class DBLoggerService {
 		transaction.setPortfolio(allocation.getPortfolio());
 		transaction.setFund(allocation.getFund());
 		transaction.setBuyDate(allocation.getBuyDate());
-		transaction.setBuyPrice(allocation.getRebalanceDayPrice());
+		transaction.setBuyPrice(allocation.getCostPrice());
 		transaction.setSellDate(sellDate);
 		transaction.setSellPrice(sellPrice);
 		transaction.setQuantity(sellQuantity);
 		transaction.setAction(action);
 		transaction.setCreatedBy(createdBy);
+		entityManager.persist(transaction);
+	}
+	
+	@Transactional
+	public void logTransaction(Allocation allocation, double sellPrice, Date sellDate, double sellQuantity, Action action, CreatedBy createdBy, String comments){
+		Transaction transaction = new Transaction();
+		transaction.setPortfolio(allocation.getPortfolio());
+		transaction.setFund(allocation.getFund());
+		transaction.setBuyDate(allocation.getBuyDate());
+		transaction.setBuyPrice(allocation.getCostPrice());
+		transaction.setSellDate(sellDate);
+		transaction.setSellPrice(sellPrice);
+		transaction.setQuantity(sellQuantity);
+		transaction.setAction(action);
+		transaction.setCreatedBy(createdBy);
+		transaction.setComments(comments);
 		entityManager.persist(transaction);
 	}
 }
