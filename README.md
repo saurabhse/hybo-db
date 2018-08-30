@@ -1,5 +1,10 @@
 # hybo-db
 
+It is the database project for Hybo project.
+Check Hybo Project for more details
+https://github.com/saurabhse/hybo
+USAGE:
+
 After you checkout and import project in eclipse/sts
 
 Go to file <project-root>src\main\resources\META-INF\spring\app-context.xml
